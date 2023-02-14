@@ -11,13 +11,14 @@ We will use familiar icons for leaving reviews and ratings.
 Menu will be displayed whenever the dining API is active.  
 Can use local storage to allow for offline viewing and faster startup times when the app has been opened recently. 
 
-# Performance
+## Performance
 Loading times and throughput should be minimal due to the simplicity of the app.  
 Can improve load time by using local storage.
 
 ## Supportability
-Dining API needs to be kept up to date.  
+Need to rely on accurate XML data feed from BonAppetit.  
 Does not have to be Vassar specific to allow for potential expansion in other contexts.
 
 ## Implementation
-Development is currently in Java targeted for Android.
+Development is currently in Java targeted for Android. Creating a database to store user information such as favorites and reviews. Pulling XML data using a Heroku app.
+
