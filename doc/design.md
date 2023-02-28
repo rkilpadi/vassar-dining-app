@@ -1,19 +1,27 @@
 ```plantuml
+class TextUI{
+...
+--
+setOptions()
+printMenu()
+printFavList()
+}
 class Controller{
 -date : TimeStamp
 -cafe : Vendor
 --
+updateOptions()
 sendMenu() 
 sendFav()
 }
 
 class Menu{
--date : String 
+-date : TimeStamp
 -time : Timestamp
 --
 pullMenuFile()
 filterMenu()
-getMenu()
+toString()
 }
 
 class MenuItem{
@@ -39,7 +47,7 @@ getFavList()
 }
 
 Controller -> "(1..*)\n dietaryFilter \n{List}" DietaryRestriction : \t\t\t\t
-Menu -> "(1..*)\n menuItems \n{List}" MenuItem: \t\t\t\t
+Menu -> "(1..*)\n menuItems \n{Set}" MenuItem: \t\t\t\t
 MenuItem -> "(1..*)\n dietaryRestrictions\n{Set}" DietaryRestriction: \t\t\t\t
 User -> "(1..*)\n favorites \n{Set}" MenuItem: \t\t\t\t
 ```
