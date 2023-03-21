@@ -13,9 +13,11 @@ public class Data {
 
         vegan = new DietaryRestriction("vegan", "");
         vegetarian = new DietaryRestriction("vegetarian", "");
+        MenuItem eggs = new MenuItem("eggs", "scrambled", new HashSet<>(List.of(vegetarian)));
 
-        breakfastItems.add(new MenuItem("eggs", "hard boiled eggs", new HashSet<>(List.of(vegetarian))));
-        breakfastItems.add(new MenuItem("bacon", "", new HashSet<>()));
+        breakfastItems.add(eggs);
+        breakfastItems.add(new MenuItem("bacon", "crispy", new HashSet<>()));
+        lunchItems.add(eggs);
         lunchItems.add(new MenuItem("pasta", "", new HashSet<>(List.of(vegetarian))));
         lunchItems.add(new MenuItem("salad", "", new HashSet<>(List.of(vegan))));
 
@@ -29,7 +31,7 @@ public class Data {
     }
 
     public static Set<String> getCafes() {
-        return new HashSet<>(Arrays.asList("deece", "retreat"));
+        return new HashSet<>(List.of("deece"));
     }
 
     public static Set<String> getMealtimes() {
