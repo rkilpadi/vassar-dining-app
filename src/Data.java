@@ -14,7 +14,7 @@ public class Data {
         vegan = new DietaryRestriction("vegan", "");
         vegetarian = new DietaryRestriction("vegetarian", "");
 
-        breakfastItems.add(new MenuItem("eggs", "", new HashSet<>(List.of(vegetarian))));
+        breakfastItems.add(new MenuItem("eggs", "hard boiled eggs", new HashSet<>(List.of(vegetarian))));
         breakfastItems.add(new MenuItem("bacon", "", new HashSet<>()));
         lunchItems.add(new MenuItem("pasta", "", new HashSet<>(List.of(vegetarian))));
         lunchItems.add(new MenuItem("salad", "", new HashSet<>(List.of(vegan))));

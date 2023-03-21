@@ -1,45 +1,51 @@
 ```plantuml
-class TextUI{
-...
+class TextUI {
+-controller : Controller
+-out : PrintStream
+-scanner : Scanner
 --
-setOptions()
-printMenu()
-printFavList()
-}
-class Controller{
--date : TimeStamp
--cafe : Vendor
---
-updateOptions()
-sendMenu() 
-sendFav()
+run()
+pickCafe() : String
+pickMealtime() : String
 }
 
-class Menu{
--date : TimeStamp
--time : Timestamp
+class Controller {
+-currentMenu : Menu
 --
-pullMenuFile()
-filterMenu()
-toString()
++findMenu(String, String) : void
++setCurrentMenu(Menu) : void
++getMenu() : Menu
++main(String[]) : void
 }
 
-class MenuItem{
--foodName : String
+class Menu {
+-cafe : String
+-mealtime : String
+-menuItems : Set<MenuItem>
+--
++toString()
+}
+
+class MenuItem {
+-name : String
 -description : String
---
-getItem()
+-dietaryRestrictions : Set<DietaryRestriction>
+-favoriteStatus : boolean
 }
 
 class DietaryRestriction {
 -restriction: String
--image: String
+-imagePath: String
 --
 getRestriction()
+getImagePath()
 }
 
-class User{
--favorites : Set<MenuItem>
+class Data {
+-name : String
+-preferredCafes : Set<String>
+-preferredMealtimes : Set<String>
+-dietaryRestrictions : Set<DietaryRestriction>
 --
 addToFav()
 removeFromFav()
@@ -49,5 +55,5 @@ getFavList()
 Controller -> "(1..*)\n dietaryFilter \n{List}" DietaryRestriction : \t\t\t\t
 Menu -> "(1..*)\n menuItems \n{Set}" MenuItem: \t\t\t\t
 MenuItem -> "(1..*)\n dietaryRestrictions\n{Set}" DietaryRestriction: \t\t\t\t
-User -> "(1..*)\n favorites \n{Set}" MenuItem: \t\t\t\t
+Data -> "(1..*)\n favorites \n{Set}" MenuItem: \t\t\t\t
 ```
