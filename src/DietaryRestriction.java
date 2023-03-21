@@ -1,10 +1,9 @@
-public class DietaryRestriction {
-
-    private String restriction;
-    private String imagePath;
-
-    DietaryRestriction(String restriction, String imagePath) {
-        this.restriction = restriction;
-        this.imagePath = imagePath;
+public record DietaryRestriction(String restriction, String imagePath) {
+    public String toString() {
+        return switch (restriction) {
+            case "vegetarian" -> "(V)";
+            case "vegan" -> "(VG)";
+            default -> "";
+        };
     }
 }
