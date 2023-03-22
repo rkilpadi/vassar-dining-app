@@ -2,7 +2,7 @@
 
 ### Target Audience: Vassar students, employees, and dining staff.
 
-### Business Case: Improves quality of student life. Allows for better stock/labor management.
+### Business Case: Improves quality of student life. Allows for Vassar Dining to prioritise what ingredients to buy more and what meals to focus on.
 
 ## Main Features:
 - Displaying the menu
@@ -20,7 +20,8 @@
 - Interface: Display menu, other user’s reviews, and personal account details (username, favorites list)
 
 
-@startuml
+```plantuml
+
 ' human actors
 actor "Consumer" as consumer
 
@@ -42,4 +43,4 @@ consumer --> leaveReview
 consumer --> addFavorite
 consumer --> submitRec
 viewMenu --> vassarDiningAPI
-@enduml
+```

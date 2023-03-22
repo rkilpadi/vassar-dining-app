@@ -10,7 +10,7 @@ pickMealtime() : String
 }
 
 class Controller {
--currentMenu : Menu
+-currentUser : Menu
 --
 +findMenu(String, String) : void
 +setCurrentMenu(Menu) : void
@@ -21,7 +21,6 @@ class Controller {
 class Menu {
 -cafe : String
 -mealtime : String
--menuItems : Set<MenuItem>
 --
 +toString()
 }
@@ -37,8 +36,8 @@ class DietaryRestriction {
 -restriction: String
 -imagePath: String
 --
-getRestriction()
-getImagePath()
++getRestriction()
++getImagePath()
 }
 
 class Data {
@@ -47,9 +46,9 @@ class Data {
 -preferredMealtimes : Set<String>
 -dietaryRestrictions : Set<DietaryRestriction>
 --
-addToFav()
-removeFromFav()
-getFavList()
++addToFav()
++removeFromFav()
++getFavList()
 }
 
 Controller -> "(1..*)\n dietaryFilter \n{List}" DietaryRestriction : \t\t\t\t

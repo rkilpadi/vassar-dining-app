@@ -46,7 +46,7 @@ public class TextUI {
         Set<String> mealtimes = Data.getMealtimes();
         String mealtimesString = String.join(",", mealtimes);
 
-        out.printf("Select a cafe: %s\n", mealtimesString);
+        out.printf("Select a mealtime: %s\n", mealtimesString);
 
         while (true) {
             String userInput = scanner.nextLine();
