@@ -1,21 +1,24 @@
 import java.util.Set;
 
-public class Menu {
+/** Represents the set of MenuItems at a given cafe at a given mealtime. */
+public record Menu(String cafe, String mealtime, Set<MenuItem> menuItems) {
 
-    String cafe;
-    String mealtime;
-    Set<MenuItem> menuItems;
-
-    public Menu(String cafe, String mealtime, Set<MenuItem> menuItems) {
-        this.cafe = cafe;
-        this.mealtime = mealtime;
-        this.menuItems = menuItems;
-    }
-
-    public String toString() {
+    /**
+     * @param user the current user of the app
+     * @return a textual representation of the Menu based on the user's preferences
+     */
+    public String toString(User user) {
         StringBuilder menuStr = new StringBuilder();
         for (MenuItem item : menuItems) {
-            menuStr.append(item.name).append(" - ").append(item.description).append("\n");
+            menuStr.append(item.name());
+            if (user.getFavorites().contains(item)) {
+                menuStr.append("*");
+            }
+            item.dietaryRestrictions().forEach(restriction -> menuStr.append(restriction.getSymbol()));
+            if (!item.description().isBlank()) {
+                menuStr.append(" - ").append(item.description());
+            }
+            menuStr.append("\n");
         }
         return menuStr.toString();
     }

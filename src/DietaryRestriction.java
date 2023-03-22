@@ -1,10 +1,22 @@
-public class DietaryRestriction {
+/**
+ * Represents dietary restrictions and relates them to symbols to be displayed on the menu.
+ */
+public enum DietaryRestriction {
+    VEGETARIAN ("(V)"),
+    VEGAN ("(VG)");
 
-    private String restriction;
-    private String imagePath;
+    private final String symbol;
 
-    DietaryRestriction(String restriction, String imagePath) {
-        this.restriction = restriction;
-        this.imagePath = imagePath;
+    /**
+     * Private enum constructor
+     *
+     * @param symbol a string to be displayed alongside the item
+     */
+    DietaryRestriction(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public String getSymbol() {
+        return symbol;
     }
 }

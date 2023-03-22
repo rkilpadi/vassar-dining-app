@@ -2,7 +2,8 @@
 
 ### Target Audience: Vassar students, employees, and dining staff.
 
-### Business Case: Improves quality of student life. Allows for Vassar Dining to prioritise what ingredients to buy more and what meals to focus on.
+### Business Case: Improves quality of student life. Allows for feedback on menu items.
+
 
 ## Main Features:
 - Displaying the menu
@@ -10,14 +11,13 @@
 - Notifications for specific dishes
 - Leaving reviews
 - Recommending meals
+- Filtering by dietary restriction
 
 # Human Actors
-- Consumer: View menu, Save lists, Receive notifications, Leave Reviews, and Post Recommendations
+- Consumer: View menu, Save lists, Receive notifications, Leave Reviews, Post Recommendations, and Filter by dietary restrictions
 
 # System Actors
 - Vassar Dining API: Return menu
-- Database: Hold user’s favorite dishes, reviews, and meal recommendations
-- Interface: Display menu, other user’s reviews, and personal account details (username, favorites list)
 
 
 ```plantuml
