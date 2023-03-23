@@ -23,3 +23,4 @@ public record Menu(String cafe, String mealtime, Set<MenuItem> menuItems) {
         return menuStr.toString();
     }
 }
+

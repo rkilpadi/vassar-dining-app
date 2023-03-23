@@ -2,7 +2,7 @@
 
 ### Target Audience: Vassar students, employees, and dining staff.
 
-### Business Case: Improves quality of student life. Allows for feedback on menu items.
+### Business Case: Improves quality of student life. Allows for feedback on menu items. Using the feedback that the app would collect Vassar would be able to prioritize certain ingredients or vendors based on popularity.
 
 
 ## Main Features:
@@ -10,7 +10,6 @@
 - Creating a list of favorite dishes
 - Notifications for specific dishes
 - Leaving reviews
-- Recommending meals
 - Filtering by dietary restriction
 
 # Human Actors

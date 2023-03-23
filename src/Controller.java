@@ -1,6 +1,6 @@
 /** Updates variable data based on user input */
 public class Controller {
-    
+
     private Menu currentMenu;
     private final User currentUser = new User();
 

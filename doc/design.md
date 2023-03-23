@@ -10,7 +10,7 @@ pickMealtime() : String
 }
 
 class Controller {
--currentUser : Menu
+-currentUser : User
 --
 +findMenu(String, String) : void
 +setCurrentMenu(Menu) : void
@@ -51,8 +51,18 @@ class Data {
 +getFavList()
 }
 
+class User {
+-username : String
+-data : Data
+--
++addToFav()
++removeFromFav()
++getFavList()
+}
+
 Controller -> "(1..*)\n dietaryFilter \n{List}" DietaryRestriction : \t\t\t\t
 Menu -> "(1..*)\n menuItems \n{Set}" MenuItem: \t\t\t\t
 MenuItem -> "(1..*)\n dietaryRestrictions\n{Set}" DietaryRestriction: \t\t\t\t
 Data -> "(1..*)\n favorites \n{Set}" MenuItem: \t\t\t\t
+
 ```
