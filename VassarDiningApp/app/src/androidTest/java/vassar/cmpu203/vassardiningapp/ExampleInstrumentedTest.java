@@ -1,4 +1,4 @@
-package com.example.vassardiningapp;
+package vassar.cmpu203.vassardiningapp;
 
 import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;

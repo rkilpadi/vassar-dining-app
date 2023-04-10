@@ -1,4 +1,4 @@
-package com.example.vassardiningapp;
+package vassar.cmpu203.vassardiningapp;
 
 import org.junit.Test;
 
