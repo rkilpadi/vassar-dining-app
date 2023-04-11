@@ -31,7 +31,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public final void onBindViewHolder(@NonNull RecyclerAdapter.ViewHolder holder, int position) {
         ArrayList<MenuItem> items = new ArrayList<>(menu.getMenuItems());
-        holder.setData(items.get(position).getName());
+        MenuItem item = items.get(position);
+        holder.setData(item.getName(), item.getDescription());
     }
 
     @Override
@@ -40,15 +41,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView itemText;
+        private final TextView itemName;
+        private final TextView itemDesc;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemText = itemView.findViewById(R.id.item_text);
+            itemName = itemView.findViewById(R.id.item_text);
+            itemDesc = itemView.findViewById(R.id.item_desc);
         }
 
-        public void setData(String name) {
-            itemText.setText(name);
+        public void setData(String name, String desc) {
+            itemName.setText(name);
+            itemDesc.setText(desc);
         }
     }
 }

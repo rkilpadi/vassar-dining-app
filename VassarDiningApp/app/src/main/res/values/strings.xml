@@ -6,7 +6,7 @@
     <string name="textview">TextView</string>
 
     <string-array name="cafes">
-        <item>deece</item>
+        <item name="default_cafe">deece</item>
         <item>retreat</item>
     </string-array>
 

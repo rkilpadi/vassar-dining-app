@@ -23,6 +23,7 @@ import vassar.cmpu203.vassardiningapp.model.Menu;
 public class MenuSelectFragment extends Fragment {
 
     private RecyclerView menuView;
+    Spinner cafeSpinner, mealtimeSpinner;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,8 +37,8 @@ public class MenuSelectFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-       Spinner cafeSpinner = view.findViewById(R.id.cafe_spinner);
-       Spinner mealtimeSpinner = view.findViewById(R.id.mealtime_spinner);
+       cafeSpinner = view.findViewById(R.id.cafe_spinner);
+       mealtimeSpinner = view.findViewById(R.id.mealtime_spinner);
        populateSpinner(view, cafeSpinner, R.array.cafes);
        populateSpinner(view, mealtimeSpinner, R.array.mealtimes);
 
@@ -60,7 +61,10 @@ public class MenuSelectFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                listener.onMenuFieldSelected(parent, position);
+                listener.onMenuFieldSelected(
+                        cafeSpinner.getSelectedItem().toString(),
+                        mealtimeSpinner.getSelectedItem().toString()
+                );
             }
 
             @Override
@@ -77,6 +81,6 @@ public class MenuSelectFragment extends Fragment {
     }
 
     public interface OnItemSelectedListener {
-        void onMenuFieldSelected(AdapterView<?> parent, int position);
+        void onMenuFieldSelected(String cafe, String mealtime);
     }
 }

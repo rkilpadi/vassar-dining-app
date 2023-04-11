@@ -2,11 +2,10 @@ package vassar.cmpu203.vassardiningapp.controller;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.AdapterView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 
 import vassar.cmpu203.vassardiningapp.R;
 import vassar.cmpu203.vassardiningapp.model.Data;
@@ -18,9 +17,6 @@ public class MainActivity extends AppCompatActivity implements MenuSelectFragmen
 
     private final User user = new User();
     private Menu currentMenu;
-    private String cafe = "deece";
-    private String mealtime = "breakfast";
-    private RecyclerView menuView;
     private MenuSelectFragment menuSelectFragment;
 
     @Override
@@ -28,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements MenuSelectFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Data.populateMenus();
-        currentMenu = Data.findMenu(cafe, mealtime);
+        currentMenu = Data.findMenu("deece", "breakfast");
 
         menuSelectFragment = new MenuSelectFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -37,25 +33,17 @@ public class MainActivity extends AppCompatActivity implements MenuSelectFragmen
     }
 
     @Override
-    public void onMenuFieldSelected(AdapterView<?> parent, int position) {
-
-        String itemSelected = String.valueOf(parent.getItemAtPosition(position));
-        if (parent.getId() == R.id.cafe_spinner) {
-            cafe = itemSelected;
-        } else if (parent.getId() == R.id.mealtime_spinner) {
-            mealtime = itemSelected;
-        }
-
+    public void onMenuFieldSelected(String cafe, String mealtime) {
         try {
             currentMenu = Data.findMenu(cafe, mealtime);
             menuSelectFragment.updateData(currentMenu);
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.menu_select_fragment_container, menuSelectFragment)
-                    //.addToBackStack(null)
                     .commit();
         } catch (IllegalArgumentException e) {
             Log.e("Error: menu not found", e.getMessage(), e);
+            Toast.makeText(this, "menu not found", Toast.LENGTH_SHORT).show();
         }
     }
 }
