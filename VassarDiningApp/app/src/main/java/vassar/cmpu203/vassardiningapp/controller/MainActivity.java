@@ -5,7 +5,7 @@ import android.util.Log;
 import android.widget.AdapterView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import vassar.cmpu203.vassardiningapp.R;
@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements MenuSelectFragmen
     private String cafe = "deece";
     private String mealtime = "breakfast";
     private RecyclerView menuView;
+    private MenuSelectFragment menuSelectFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +30,10 @@ public class MainActivity extends AppCompatActivity implements MenuSelectFragmen
         Data.populateMenus();
         currentMenu = Data.findMenu(cafe, mealtime);
 
-        menuView = findViewById(R.id.item_recycler);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        menuView.setLayoutManager(layoutManager);
-    }
-
-    private void populateMenuView() {
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(currentMenu);
-        menuView.setAdapter(recyclerAdapter);
+        menuSelectFragment = new MenuSelectFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.menu_select_fragment_container, menuSelectFragment);
+        ft.commit();
     }
 
     @Override
@@ -52,8 +48,13 @@ public class MainActivity extends AppCompatActivity implements MenuSelectFragmen
 
         try {
             currentMenu = Data.findMenu(cafe, mealtime);
-            populateMenuView();
-        } catch (Exception e) {
+            menuSelectFragment.updateData(currentMenu);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.menu_select_fragment_container, menuSelectFragment)
+                    //.addToBackStack(null)
+                    .commit();
+        } catch (IllegalArgumentException e) {
             Log.e("Error: menu not found", e.getMessage(), e);
         }
     }

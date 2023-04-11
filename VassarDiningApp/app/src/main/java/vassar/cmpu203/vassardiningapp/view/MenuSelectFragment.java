@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +17,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import vassar.cmpu203.vassardiningapp.R;
+import vassar.cmpu203.vassardiningapp.controller.RecyclerAdapter;
+import vassar.cmpu203.vassardiningapp.model.Menu;
 
 public class MenuSelectFragment extends Fragment {
+
+    private RecyclerView menuView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,16 @@ public class MenuSelectFragment extends Fragment {
        Spinner mealtimeSpinner = view.findViewById(R.id.mealtime_spinner);
        populateSpinner(view, cafeSpinner, R.array.cafes);
        populateSpinner(view, mealtimeSpinner, R.array.mealtimes);
+
+        menuView = view.findViewById(R.id.item_recycler);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        menuView.setLayoutManager(layoutManager);
+    }
+
+    public void updateData(Menu menu) {
+        RecyclerAdapter adapter = new RecyclerAdapter(menu);
+        menuView.setAdapter(adapter);
     }
 
     private void populateSpinner(View view, Spinner spinner, int textArrayResId) {
@@ -57,9 +73,7 @@ public class MenuSelectFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof OnItemSelectedListener) {
-            this.listener = (OnItemSelectedListener) context;
-        }
+        this.listener = (OnItemSelectedListener) context;
     }
 
     public interface OnItemSelectedListener {
