@@ -1,47 +1,47 @@
 package vassar.cmpu203.vassardiningapp.controller;
 
-import android.util.Log;
-import android.view.View;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.PopupWindow;
-import android.widget.Spinner;
-import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import vassar.cmpu203.vassardiningapp.R;
-import vassar.cmpu203.vassardiningapp.model.*;
+import android.util.Log;
+import android.widget.AdapterView;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import vassar.cmpu203.vassardiningapp.R;
+import vassar.cmpu203.vassardiningapp.model.Data;
+import vassar.cmpu203.vassardiningapp.model.Menu;
+import vassar.cmpu203.vassardiningapp.model.User;
+import vassar.cmpu203.vassardiningapp.view.MenuSelectFragment;
+
+public class MainActivity extends AppCompatActivity implements MenuSelectFragment.OnItemSelectedListener {
 
     private final User user = new User();
-
+    private Menu currentMenu;
     private String cafe = "deece";
     private String mealtime = "breakfast";
-
+    private RecyclerView menuView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Data.populateMenus();
+        currentMenu = Data.findMenu(cafe, mealtime);
 
-        populateSpinner(findViewById(R.id.cafe_spinner), R.array.cafes);
-        populateSpinner(findViewById(R.id.mealtime_spinner), R.array.mealtimes);
+        menuView = findViewById(R.id.item_recycler);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        menuView.setLayoutManager(layoutManager);
     }
 
-    private void populateSpinner(Spinner spinner, int textArrayResId) {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, textArrayResId, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+    private void populateMenuView() {
+        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(currentMenu);
+        menuView.setAdapter(recyclerAdapter);
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        TextView outText = findViewById(R.id.outtext);
+    public void onMenuFieldSelected(AdapterView<?> parent, int position) {
 
         String itemSelected = String.valueOf(parent.getItemAtPosition(position));
         if (parent.getId() == R.id.cafe_spinner) {
@@ -51,14 +51,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         try {
-            Menu currentMenu = Data.findMenu(cafe, mealtime);
-            outText.setText(currentMenu.toString(user));
+            currentMenu = Data.findMenu(cafe, mealtime);
+            populateMenuView();
         } catch (Exception e) {
             Log.e("Error: menu not found", e.getMessage(), e);
-            outText.setText("Error: menu not found");
         }
     }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {}
 }
