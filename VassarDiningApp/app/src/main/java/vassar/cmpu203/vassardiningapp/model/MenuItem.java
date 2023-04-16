@@ -1,15 +1,15 @@
 package vassar.cmpu203.vassardiningapp.model;
 
-import java.util.Set;
+import java.util.List;
 
 /** Represents a food item that could appear on multiple menus. */
 public class MenuItem {
 
     private final String name;
     private final String description;
-    private final Set<DietaryRestriction> dietaryRestrictions;
+    private final List<DietaryRestriction> dietaryRestrictions;
 
-    public MenuItem(String name, String description, Set<DietaryRestriction> dietaryRestrictions) {
+    public MenuItem(String name, String description, List<DietaryRestriction> dietaryRestrictions) {
         this.name = name;
         this.description = description;
         this.dietaryRestrictions = dietaryRestrictions;
@@ -23,7 +23,7 @@ public class MenuItem {
         return description;
     }
 
-    public Set<DietaryRestriction> getDietaryRestrictions() {
+    public List<DietaryRestriction> getDietaryRestrictions() {
         return dietaryRestrictions;
     }
 }

@@ -5,7 +5,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 
 import vassar.cmpu203.vassardiningapp.R;
 import vassar.cmpu203.vassardiningapp.model.Data;
@@ -27,9 +26,9 @@ public class MainActivity extends AppCompatActivity implements MenuSelectFragmen
         currentMenu = Data.findMenu("deece", "breakfast");
 
         menuSelectFragment = new MenuSelectFragment();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.menu_select_fragment_container, menuSelectFragment);
-        ft.commit();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.menu_select_fragment_container, menuSelectFragment)
+                .commit();
     }
 
     @Override

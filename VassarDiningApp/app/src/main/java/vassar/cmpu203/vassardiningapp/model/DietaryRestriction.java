@@ -1,24 +1,26 @@
 package vassar.cmpu203.vassardiningapp.model;
 
+import vassar.cmpu203.vassardiningapp.R;
+
 /**
  * Represents dietary restrictions and relates them to symbols to be displayed on the menu.
  */
 public enum DietaryRestriction {
-    VEGETARIAN ("(V)"),
-    VEGAN ("(VG)");
+    VEGETARIAN (R.drawable.vegetarian),
+    VEGAN (R.drawable.vegan);
 
-    private final String symbol;
+    private final int iconId;
 
     /**
      * Private enum constructor
      *
-     * @param symbol a string to be displayed alongside the item
+     * @param iconId the ID of the image to be displayed alongside the item
      */
-    DietaryRestriction(String symbol) {
-        this.symbol = symbol;
+    DietaryRestriction(int iconId) {
+        this.iconId = iconId;
     }
 
-    public String getSymbol() {
-        return symbol;
+    public int getIconId() {
+        return iconId;
     }
 }

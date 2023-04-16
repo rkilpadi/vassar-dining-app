@@ -17,7 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import vassar.cmpu203.vassardiningapp.R;
-import vassar.cmpu203.vassardiningapp.controller.RecyclerAdapter;
+import vassar.cmpu203.vassardiningapp.controller.MenuItemsAdapter;
 import vassar.cmpu203.vassardiningapp.model.Menu;
 
 public class MenuSelectFragment extends Fragment {
@@ -49,8 +49,8 @@ public class MenuSelectFragment extends Fragment {
     }
 
     public void updateData(Menu menu) {
-        RecyclerAdapter adapter = new RecyclerAdapter(menu);
-        menuView.setAdapter(adapter);
+        MenuItemsAdapter itemsAdapter = new MenuItemsAdapter(menu);
+        menuView.setAdapter(itemsAdapter);
     }
 
     private void populateSpinner(View view, Spinner spinner, int textArrayResId) {
