@@ -6,17 +6,23 @@ import java.util.List;
 public class Menu {
 
     private final String cafe;
+    private final String date;
     private final String mealtime;
     private final List<MenuItem> menuItems;
 
-    public Menu(String cafe, String mealtime, List<MenuItem> menuItems) {
+    public Menu(String cafe, String date, String mealtime, List<MenuItem> menuItems) {
         this.cafe = cafe;
+        this.date = date;
         this.mealtime = mealtime;
         this.menuItems = menuItems;
     }
 
     public String getCafe() {
         return cafe;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public String getMealtime() {

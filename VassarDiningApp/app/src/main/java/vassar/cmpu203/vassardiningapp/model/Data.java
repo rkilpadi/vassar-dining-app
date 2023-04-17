@@ -20,11 +20,13 @@ public class Data {
         lunchItems.add(new MenuItem("pasta", "", new ArrayList<>(List.of(DietaryRestriction.VEGETARIAN))));
         lunchItems.add(new MenuItem("salad", "", new ArrayList<>(List.of(DietaryRestriction.VEGAN, DietaryRestriction.VEGETARIAN))));
 
-        Menu breakfast = new Menu("deece", "breakfast", breakfastItems);
-        Menu lunch = new Menu("deece", "lunch", lunchItems);
+        Menu breakfast = new Menu("deece", "today", "breakfast", breakfastItems);
+        Menu lunch = new Menu("deece", "today", "lunch", lunchItems);
+        Menu tmrBreakfast = new Menu("deece", "tomorrow", "breakfast", lunchItems);
 
         MENUS.add(breakfast);
         MENUS.add(lunch);
+        MENUS.add(tmrBreakfast);
     }
 
     /**
@@ -32,15 +34,16 @@ public class Data {
      * If none is found, throw an error.
      *
      * @param cafe the name of the desired cafe
-     * @param mealtime the name of the desired mealtime
+     * @param date the name of the desired mealtime
      * @return a menu that matches the cafe and mealtime, otherwise throw an error
      */
-    public static Menu findMenu(String cafe, String mealtime) {
+    public static List<Menu> findMenu(String cafe, String date) {
+        List<Menu> menus = new ArrayList<>();
         for (Menu menu : MENUS) {
-            if (menu.getCafe().equalsIgnoreCase(cafe) && menu.getMealtime().equalsIgnoreCase(mealtime)) {
-                return menu;
+            if (menu.getCafe().equalsIgnoreCase(cafe) && menu.getDate().equalsIgnoreCase(date)) {
+                menus.add(menu);
             }
         }
-        throw new IllegalArgumentException(String.format("No menu with that cafe and mealtime: %s, %s", cafe, mealtime));
+        return menus;
     }
 }

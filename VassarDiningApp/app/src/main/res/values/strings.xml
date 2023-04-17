@@ -10,6 +10,11 @@
         <item>retreat</item>
     </string-array>
 
+    <string-array name="dates">
+        <item>today</item>
+        <item>tomorrow</item>
+    </string-array>
+
     <string-array name="mealtimes">
         <item>breakfast</item>
         <item>lunch</item>

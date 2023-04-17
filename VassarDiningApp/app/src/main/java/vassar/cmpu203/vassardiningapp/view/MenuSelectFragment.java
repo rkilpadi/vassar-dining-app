@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import java.util.List;
+
 import vassar.cmpu203.vassardiningapp.R;
-import vassar.cmpu203.vassardiningapp.controller.MenuItemsAdapter;
+import vassar.cmpu203.vassardiningapp.controller.ExpandableAdapter;
 import vassar.cmpu203.vassardiningapp.model.Menu;
 
 public class MenuSelectFragment extends Fragment {
@@ -40,7 +43,7 @@ public class MenuSelectFragment extends Fragment {
        cafeSpinner = view.findViewById(R.id.cafe_spinner);
        mealtimeSpinner = view.findViewById(R.id.mealtime_spinner);
        populateSpinner(view, cafeSpinner, R.array.cafes);
-       populateSpinner(view, mealtimeSpinner, R.array.mealtimes);
+       populateSpinner(view, mealtimeSpinner, R.array.dates);
 
         menuView = view.findViewById(R.id.item_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
@@ -48,8 +51,8 @@ public class MenuSelectFragment extends Fragment {
         menuView.setLayoutManager(layoutManager);
     }
 
-    public void updateData(Menu menu) {
-        MenuItemsAdapter itemsAdapter = new MenuItemsAdapter(menu);
+    public void updateData(List<Menu> menu) {
+        ExpandableAdapter itemsAdapter = new ExpandableAdapter(menu, getContext());
         menuView.setAdapter(itemsAdapter);
     }
 
