@@ -2,42 +2,47 @@
 actor User as user
 participant " : TextUI" as textUI
 participant ": Controller" as controller
-participant ": Menu" as menu
 participant ": Data" as data
+participant ": Menu" as menu
+participant ": MenuItem" as menuItem
+participant ": User" as userObj
 
 activate textUI
 user -> textUI : User starts app
 
-textUI -> user : Requests cafe
-user -> textUI : Inputs cafe
-textUI -> user : Requests mealtime
-user -> textUI : Inputs mealtime
-
-textUI -> controller : findMenu(cafe, mealTime)
+textUI -> controller : run()
 
 activate controller
-controller -> menu : new(cafe, mealtime, menuItems)
-
-activate menu
-menu --> controller
-deactivate menu
-controller --> textUI : getMenu()
-
-textUI -> menu : toString()
-
-textUI -> user : Prints menu
-
-textUI -> user : Requests item 
-user -> textUI : Inputs item user wants to favorite
-
-textUI -> controller : addToFav(itemNumber)
+controller -> textUI : pickCafe()
+textUI -> user : Select a cafe: deece
+user -> textUI : deece
+controller -> textUI : pickMealtime()
+textUI -> user : Select a mealtime: breakfast, lunch
+user -> textUI : breakfast
+controller -> data : findMenu(cafe, mealTime)
 
 activate data
-controller -> data : addToFav(itemNumber)
-
-textUI -> user : Item added to favorites
-
+data -> menu : new(cafe, mealtime, menuItems)
+menu --> data
 deactivate data
+
+controller -> textUI : printMenu(menu)
+textUI -> menu : toString(userObj)
+
+activate menu
+menuItem -> dietaryRestriction : dietaryRestrictions()
+dietaryRestriction --> menuItem
+menuItem --> menu
+menu --> textUI
+deactivate menu
+
+textUI -> user : Select an item to favorite or unfavorite, or type skip: eggs, bacon, pasta, salad
+user -> textUI : eggs
+controller -> userObj : switchFavoriteStatus(item)
+
+textUI -> user : Switched favorite status for eggs. Favorited items appear with a *.
+textUI -> controller : doNext()
+
 deactivate controller
 deactivate textUI
 

@@ -9,5 +9,5 @@ a string until given a desired input. The computer will print the menu matching 
 favorite's list and ask if the user would like to add an item to the favorites list. Upon adding an item to the list the
 computer asks the user if they would like to add another item. If no, then the computer will loop back and ask the user 
 to enter cafe and mealtime. Once a item has been favorited when printed again, there will be a 
-![](/home/ifarhane/team-2j/doc/resources/img/screenshotIterationOne.png) 
+![](/doc/resources/img/screenshotIterationOne.png) 
 
