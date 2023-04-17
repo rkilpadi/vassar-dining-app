@@ -9,7 +9,6 @@
 ## Description
 The Vassar Dining app is an improvement on the [Vassar Dining website](https://vassar.cafebonappetit.com/). As well as covering the functionality of the website such as displaying menus and filtering by dietary restrictions, the app will allow the user to favorite items and get notified when they are available, leave reviews, and more.
 
-Currently, the app exists only in the form of a text-based prototype in Java. It displays mock menu data based on user input and allows the user to add and remove favorites.
+## Functionality
 
-## Usage
-To run the prototype, select `Controller.java` as the main class and run the application. Then, simply follow the text prompts. Favorite items will persist when a new menu is displayed (marked by a `*`).
+Currently, the app simply displays mock menu data. It displays menu items, which include descriptions and dietary restrictions, in expandable lists sorted by mealtime. The user is able to select a cafe and a date and the view responds accordingly. When there is no menu to display, a message pops up.
