@@ -1,6 +1,5 @@
 package vassar.cmpu203.vassardiningapp.model;
 
-import android.view.MenuItem;
 import java.util.HashSet;
 import java.util.Set;
 

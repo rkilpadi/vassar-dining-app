@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +40,7 @@ public class MenuSelectFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
        cafeSpinner = view.findViewById(R.id.cafe_spinner);
-       mealtimeSpinner = view.findViewById(R.id.mealtime_spinner);
+       mealtimeSpinner = view.findViewById(R.id.date_spinner);
        populateSpinner(view, cafeSpinner, R.array.cafes);
        populateSpinner(view, mealtimeSpinner, R.array.dates);
 
