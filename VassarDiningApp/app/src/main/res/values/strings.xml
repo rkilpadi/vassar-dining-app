@@ -5,13 +5,15 @@
     <string name="no_menu_to_display">No menu to display</string>
     <string name="textview">TextView</string>
 
+    <string name="default_cafe">deece</string>
     <string-array name="cafes">
-        <item name="default_cafe">deece</item>
+        <item name="default_cafe">@string/default_cafe</item>
         <item>retreat</item>
     </string-array>
 
+    <string name="default_date">today</string>
     <string-array name="dates">
-        <item>today</item>
+        <item>@string/default_date</item>
         <item>tomorrow</item>
     </string-array>
 

@@ -6,7 +6,7 @@ import java.util.List;
 /** A mock database containing populated menus for testing */
 public class Data {
 
-    private static final ArrayList<Menu> MENUS = new ArrayList<>();
+    public static final ArrayList<Menu> MENUS = new ArrayList<>();
 
     /** Populate the set of Menus */
     public static void populateMenus() {
