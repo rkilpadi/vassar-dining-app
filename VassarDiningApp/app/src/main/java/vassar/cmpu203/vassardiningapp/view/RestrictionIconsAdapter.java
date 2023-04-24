@@ -1,16 +1,14 @@
-package vassar.cmpu203.vassardiningapp.controller;
+package vassar.cmpu203.vassardiningapp.view;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import vassar.cmpu203.vassardiningapp.R;
+import vassar.cmpu203.vassardiningapp.databinding.RestrictionIconBinding;
 import vassar.cmpu203.vassardiningapp.model.DietaryRestriction;
 
 public class RestrictionIconsAdapter extends RecyclerView.Adapter<RestrictionIconsAdapter.ViewHolder> {
@@ -24,7 +22,7 @@ public class RestrictionIconsAdapter extends RecyclerView.Adapter<RestrictionIco
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.restriction_icon, parent, false));
+        return new ViewHolder(RestrictionIconBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
@@ -38,15 +36,15 @@ public class RestrictionIconsAdapter extends RecyclerView.Adapter<RestrictionIco
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView icon;
+        private final RestrictionIconBinding binding;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            icon = itemView.findViewById(R.id.restriction_icon);
+        public ViewHolder(@NonNull RestrictionIconBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
         public void setData(DietaryRestriction restriction) {
-            icon.setImageResource(restriction.getIconId());
+            this.binding.restrictionIcon.setImageResource(restriction.getIconId());
         }
     }
 }

@@ -3,6 +3,8 @@ package vassar.cmpu203.vassardiningapp.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import vassar.cmpu203.vassardiningapp.databinding.RestrictionIconBinding;
+
 /** A mock database containing populated menus for testing */
 public class Data {
 
@@ -37,7 +39,7 @@ public class Data {
      * @param date the name of the desired mealtime
      * @return a menu that matches the cafe and mealtime, otherwise throw an error
      */
-    public static List<Menu> findMenu(String cafe, String date) {
+    public static List<Menu> findMenus(String cafe, String date) {
         List<Menu> menus = new ArrayList<>();
         for (Menu menu : MENUS) {
             if (menu.getCafe().equalsIgnoreCase(cafe) && menu.getDate().equalsIgnoreCase(date)) {

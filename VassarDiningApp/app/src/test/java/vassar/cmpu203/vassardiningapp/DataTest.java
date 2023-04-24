@@ -9,6 +9,6 @@ public class DataTest {
     @org.junit.jupiter.api.Test
     public void testFindMenu() {
         Data.populateMenus();
-        assertFalse(Data.findMenu("deece", "today").isEmpty());
+        assertFalse(Data.findMenus("deece", "today").isEmpty());
     }
 }
