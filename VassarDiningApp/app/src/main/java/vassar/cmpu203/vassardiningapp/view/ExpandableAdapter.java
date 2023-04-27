@@ -7,13 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import vassar.cmpu203.vassardiningapp.R;
 import vassar.cmpu203.vassardiningapp.databinding.MealtimeItemBinding;
 import vassar.cmpu203.vassardiningapp.databinding.MenuItemBinding;
 import vassar.cmpu203.vassardiningapp.model.Menu;
@@ -56,15 +59,19 @@ public class ExpandableAdapter extends RecyclerView.Adapter<ExpandableAdapter.Me
             itemRestrictions.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
             itemRestrictions.setAdapter(new RestrictionIconsAdapter(menuItem.getDietaryRestrictions()));
             itemContainer.addView(itemView);
+
+            ToggleButton heart = itemBinding.heartToggle;
+            heart.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.empty_heart));
+            heart.setOnClickListener(v ->
+                    heart.setBackgroundDrawable(ContextCompat.getDrawable(context,
+                        heart.isChecked() ? R.drawable.filled_heart : R.drawable.empty_heart
+                    ))
+            );
         }
 
-        mealtimeTitle.setOnClickListener(v -> {
-            if (itemContainer.getVisibility() == View.VISIBLE) {
-                itemContainer.setVisibility(View.GONE);
-            } else {
-                itemContainer.setVisibility(View.VISIBLE);
-            }
-        });
+        mealtimeTitle.setOnClickListener(v -> itemContainer.setVisibility(
+                itemContainer.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE
+        ));
     }
 
     @Override
