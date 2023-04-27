@@ -2,6 +2,7 @@ package vassar.cmpu203.vassardiningapp.view;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.location.GnssAntennaInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +27,13 @@ public class ExpandableAdapter extends RecyclerView.Adapter<ExpandableAdapter.Me
 
     private final List<Menu> menus;
     private final Context context;
+    private final IMenuSelectView.Listener listener;
     private MealtimeItemBinding binding;
 
-    public ExpandableAdapter(List<Menu> menus, Context context) {
+    public ExpandableAdapter(List<Menu> menus, Context context, IMenuSelectView.Listener listener) {
         this.menus = menus;
         this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -62,11 +65,12 @@ public class ExpandableAdapter extends RecyclerView.Adapter<ExpandableAdapter.Me
 
             ToggleButton heart = itemBinding.heartToggle;
             heart.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.empty_heart));
-            heart.setOnClickListener(v ->
-                    heart.setBackgroundDrawable(ContextCompat.getDrawable(context,
+            heart.setOnClickListener(v -> {
+                heart.setBackgroundDrawable(ContextCompat.getDrawable(context,
                         heart.isChecked() ? R.drawable.filled_heart : R.drawable.empty_heart
-                    ))
-            );
+                ));
+                listener.onFavorite(menuItem);
+            });
         }
 
         mealtimeTitle.setOnClickListener(v -> itemContainer.setVisibility(

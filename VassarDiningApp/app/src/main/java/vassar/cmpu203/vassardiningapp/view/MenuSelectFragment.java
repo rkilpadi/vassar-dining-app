@@ -1,6 +1,5 @@
 package vassar.cmpu203.vassardiningapp.view;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +22,14 @@ import vassar.cmpu203.vassardiningapp.R;
 import vassar.cmpu203.vassardiningapp.databinding.FragmentMenuSelectBinding;
 import vassar.cmpu203.vassardiningapp.model.Menu;
 
-public class MenuSelectFragment extends Fragment {
+public class MenuSelectFragment extends Fragment implements IMenuSelectView {
 
-    FragmentMenuSelectBinding binding;
+    private final Listener listener;
+    private FragmentMenuSelectBinding binding;
+
+    public MenuSelectFragment(Listener listener) {
+        this.listener = listener;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
@@ -43,11 +47,12 @@ public class MenuSelectFragment extends Fragment {
         populateSpinner(view, binding.dateSpinner, R.array.dates);
     }
 
-    public void updateData(List<Menu> menu) {
+    @Override
+    public void updateMenuDisplay(List<Menu> menu) {
         Snackbar menuNotFound = Snackbar.make(binding.getRoot(), "Menu not found", Snackbar.LENGTH_SHORT);
         if (menu.isEmpty()) menuNotFound.show();
 
-        ExpandableAdapter itemsAdapter = new ExpandableAdapter(menu, getContext());
+        ExpandableAdapter itemsAdapter = new ExpandableAdapter(menu, getContext(), listener);
         binding.itemRecycler.setAdapter(itemsAdapter);
     }
 
@@ -70,15 +75,15 @@ public class MenuSelectFragment extends Fragment {
         });
     }
 
-    private OnItemSelectedListener listener;
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        this.listener = (OnItemSelectedListener) context;
-    }
-
-    public interface OnItemSelectedListener {
-        void onMenuFieldSelected(String cafe, String mealtime);
-    }
+//    private OnItemSelectedListener listener;
+//
+//    @Override
+//    public void onAttach(@NonNull Context context) {
+//        super.onAttach(context);
+//        this.listener = (OnItemSelectedListener) context;
+//    }
+//
+//    public interface OnItemSelectedListener {
+//        void onMenuFieldSelected(String cafe, String mealtime);
+//    }
 }

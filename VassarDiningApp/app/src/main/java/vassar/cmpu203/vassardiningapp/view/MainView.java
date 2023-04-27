@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import vassar.cmpu203.vassardiningapp.databinding.ActivityMainBinding;
 
-public class MainView {
+public class MainView implements IMainView {
 
     FragmentManager fragmentManager;
     ActivityMainBinding binding;
@@ -19,10 +19,12 @@ public class MainView {
         binding = ActivityMainBinding.inflate(activity.getLayoutInflater());
     }
 
+    @Override
     public View getRootView() {
         return binding.getRoot();
     }
 
+    @Override
     public void displayFragment(Fragment fragment, boolean reversible, String name) {
         FragmentTransaction ft = fragmentManager.beginTransaction()
                 .replace(binding.menuSelectFragmentContainer.getId(), fragment);
