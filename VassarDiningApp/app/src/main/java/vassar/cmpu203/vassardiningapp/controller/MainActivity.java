@@ -1,46 +1,50 @@
 package vassar.cmpu203.vassardiningapp.controller;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
-import vassar.cmpu203.vassardiningapp.R;
 import vassar.cmpu203.vassardiningapp.model.Data;
 import vassar.cmpu203.vassardiningapp.model.Menu;
+import vassar.cmpu203.vassardiningapp.model.MenuItem;
+import vassar.cmpu203.vassardiningapp.model.User;
+import vassar.cmpu203.vassardiningapp.view.FragFactory;
+import vassar.cmpu203.vassardiningapp.view.IMainView;
+import vassar.cmpu203.vassardiningapp.view.IMenuSelectView;
+import vassar.cmpu203.vassardiningapp.view.MainView;
 import vassar.cmpu203.vassardiningapp.view.MenuSelectFragment;
 
-public class MainActivity extends AppCompatActivity implements MenuSelectFragment.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements IMenuSelectView.Listener {
 
     private List<Menu> currentMenu;
     private MenuSelectFragment menuSelectFragment;
+    private IMainView mainView;
+    private final User user = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getSupportFragmentManager().setFragmentFactory(new FragFactory(this));
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        mainView = new MainView(this);
+        setContentView(mainView.getRootView());
         Data.populateMenus();
-        currentMenu = Data.findMenu("deece", "today");
+        currentMenu = Data.findMenus("deece", "today");
 
-        menuSelectFragment = new MenuSelectFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.menu_select_fragment_container, menuSelectFragment)
-                .commit();
+        menuSelectFragment = new MenuSelectFragment(this);
+        mainView.displayFragment(menuSelectFragment, false, "menu");
     }
 
     @Override
     public void onMenuFieldSelected(String cafe, String date) {
-        currentMenu = Data.findMenu(cafe, date);
-        if (currentMenu.isEmpty()) {
-            Toast.makeText(this, "no menu to display", Toast.LENGTH_SHORT).show();
-        }
-        menuSelectFragment.updateData(currentMenu);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.menu_select_fragment_container, menuSelectFragment)
-                .commit();
+        currentMenu = Data.findMenus(cafe, date);
+        menuSelectFragment.updateMenuDisplay(currentMenu);
+        mainView.displayFragment(menuSelectFragment, true, "menu");
+    }
 
+    @Override
+    public void onFavorite(MenuItem item) {
+        user.switchFavoriteStatus(item);
     }
 }
