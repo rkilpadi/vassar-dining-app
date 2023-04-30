@@ -1,3 +1,5 @@
+package CafeBonHTTPRequest.src;
+
 import java.util.Map;
 
 public class MenuItem {
@@ -7,6 +9,7 @@ public class MenuItem {
     private Map<String, String> cor_icon;
     private int tier;
     private String station;
+
 
 
     // Getters and setters
@@ -46,15 +49,19 @@ public class MenuItem {
         return tier;
     }
 
+
     public void setTier(int tier) {
         this.tier = tier;
     }
+
+
     public String getStation() {
         String[] before = station.split("<strong>@");
         String[] after = before[1].split("</strong>");
         String parsedStation= after[0] ;
         return parsedStation;
     }
+
 
     public void setStation(String station) {
         this.station = station;

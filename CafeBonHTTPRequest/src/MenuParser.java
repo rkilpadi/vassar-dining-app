@@ -1,18 +1,18 @@
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+package CafeBonHTTPRequest.src;
+
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MenuParser {
-
+    
    private static final String USER_AGENT = "Mozilla/5.0";
 
     public static void main(String[] args) throws IOException {
@@ -46,22 +46,6 @@ public class MenuParser {
         //the-retreat[1: Breakfast , 3: Lunch, 4: Dinner]
         //food-truck[4: Dinner]
 
-       /*if (cafeName.equals("gordon")){
-            String deeceBreakfast = bamcoDayParts(urlBody, "1");
-            String deeceLunch = bamcoDayParts(urlBody, "3");
-            String deeceLightLunch =  bamcoDayParts(urlBody, "739");
-            String deeceDinner= bamcoDayParts(urlBody, "4");
-            String deeceLateNight = bamcoDayParts(urlBody, "7");
-        } else if (cafeName.equals("the-retreat")) {
-            String retreatBreakfast = bamcoDayParts(urlBody, "1");
-            String retreatLunch = bamcoDayParts(urlBody, "3");
-            String retreatDinner= bamcoDayParts(urlBody, "4");
-        } else if (cafeName.equals("food-truck")) {
-            String streetEatsDinner= bamcoDayParts(urlBody, "4");
-        }
-        */
-        String numDayPart = "4";
-        System.out.println("Bamco.dayparts['" + numDayPart + "'] = ");
 
         //Pretty print the JSON from the website
         GsonBuilder builder = new GsonBuilder();
@@ -76,13 +60,61 @@ public class MenuParser {
         InputStream inputStream = new ByteArrayInputStream(postJson.getBytes(StandardCharsets.UTF_8));
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
 
-        Map<String, MenuItem> menuItems = gson.fromJson(inputStreamReader, new TypeToken<Map<String, MenuItem>>(){}.getType());
+        Map<String, MenuItem> menuItems = gson.fromJson(inputStreamReader, new TypeToken<Map<String, MenuItem>>() {
+        }.getType());
         //Print MenuItem objects
         for (Map.Entry<String, MenuItem> entry : menuItems.entrySet()) {
             MenuItem item = entry.getValue();
             System.out.println(item.toString());
         }
+
+        ArrayList<String> bamcoDayParts;
+        if (cafeName.equals("gordon")) {
+            ArrayList<String> deeceTime = new ArrayList<String>(Arrays.asList("1", "2", "3", "739", "4", "7"));
+            bamcoDayParts = bamcoDayParts(urlBody, deeceTime);
+        } else if (cafeName.equals("the-retreat")) {
+            ArrayList<String> retreatTime = new ArrayList<String>(Arrays.asList("1", "3", "4"));
+            bamcoDayParts = bamcoDayParts(urlBody, retreatTime);
+        } else if (cafeName.equals("food-truck")) {
+            ArrayList<String> streetEatsTime = new ArrayList<String>(Arrays.asList("4"));
+            bamcoDayParts = bamcoDayParts(urlBody, streetEatsTime);
+        } else {
+            System.out.println("Invalid cafe name: " + cafeName);
+            return;
+        }
+
+        for (String mealTime : bamcoDayParts) {
+            System.out.println(mealTime);
+        }
+
+
+        // Loop over the bamcoDayParts ArrayList and skip over any strings that contain "No match found for"
+        for (String bamcoDayPart : bamcoDayParts) {
+            if (bamcoDayPart.contains("No match found for")) {
+                continue;
+            }
+
+            //Pretty print the JSON from the website
+           // try {
+                JsonElement jsonMealTimeElement = new JsonParser().parse(bamcoDayPart);
+
+                //Parse the JSON string as a Map of Café objects
+                String mealTimeJson = gson.toJson(jsonMealTimeElement);
+                System.out.println(mealTimeJson);
+                Map<String, Cafe> cafes = gson.fromJson(mealTimeJson, new TypeToken<Map<String, Cafe>>() {}.getType());
+
+                // Create a Café object for each mealtime in the Cafe
+                for (Mealtime mealtime : cafes.get("regular").getMealtimes()) {
+                    Cafe cafe = new Cafe(cafeName, Collections.singletonList(mealtime));
+                    System.out.println(cafe.toString());
+                }
+            //} catch (JsonSyntaxException e) {
+                //System.out.println("Invalid JSON string: " + bamcoDayPart);
+            //}
+        }
+
     }
+
 
 
     private static String sendGET(String urlStr) throws IOException {
@@ -129,11 +161,19 @@ public class MenuParser {
         return true;
     }
 
-    private static String bamcoDayParts(String html, String numDayPart){
-        String[] before = html.split("Bamco.dayparts['" + numDayPart + "'] = ");
-                String[] after = before[1].split(";}");
-        String mealTimeMenu = after[0];
-        return mealTimeMenu;
-    };
-
+    private static ArrayList<String> bamcoDayParts( String html, List<String> numDayParts) {
+        ArrayList<String> bamcoMealTimeStringList = new ArrayList<>();
+        for (String numDayPart : numDayParts) {
+            String pattern = "Bamco\\.dayparts\\['" + Pattern.quote(numDayPart) + "'\\] = (.*?);";
+            Pattern p = Pattern.compile(pattern);
+            Matcher m = p.matcher(html);
+            if (m.find()) {
+                String match = m.group(1);
+                bamcoMealTimeStringList.add(match);
+            } else {
+                System.out.println("No match found for day-part: " + numDayPart );
+            }
+        }
+        return bamcoMealTimeStringList;
+    }
 }
