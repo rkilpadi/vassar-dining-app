@@ -3,14 +3,14 @@ package vassar.cmpu203.vassardiningapp.model;
 import java.util.List;
 
 /** Represents the set of MenuItems at a given cafe at a given mealtime. */
-public class Menu {
+public class MealtimeMenu {
 
     private final String cafe;
     private final String date;
     private final String mealtime;
-    private final List<MenuItem> menuItems;
+    private final List<MealtimeItem> menuItems;
 
-    public Menu(String cafe, String date, String mealtime, List<MenuItem> menuItems) {
+    public MealtimeMenu(String cafe, String date, String mealtime, List<MealtimeItem> menuItems) {
         this.cafe = cafe;
         this.date = date;
         this.mealtime = mealtime;
@@ -29,15 +29,15 @@ public class Menu {
         return mealtime;
     }
 
-    public List<MenuItem> getMenuItems() {
+    public List<MealtimeItem> getMenuItems() {
         return menuItems;
     }
 
     @Override
     public boolean equals(Object other) {
-        return other instanceof Menu &&
-                ((Menu) other).cafe.equals(this.cafe) &&
-                ((Menu) other).mealtime.equals(this.mealtime);
+        return other instanceof MealtimeMenu &&
+                ((MealtimeMenu) other).cafe.equals(this.cafe) &&
+                ((MealtimeMenu) other).mealtime.equals(this.mealtime);
     }
 }
 

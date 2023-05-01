@@ -6,16 +6,16 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import vassar.cmpu203.vassardiningapp.model.MenuItem;
+import vassar.cmpu203.vassardiningapp.model.MealtimeItem;
 import vassar.cmpu203.vassardiningapp.model.User;
 
 public class UserTest {
     User user;
-    MenuItem testItem;
+    MealtimeItem testItem;
 
     UserTest() {
         user = new User();
-        testItem = new MenuItem("test", "test desc", new ArrayList<>());
+        testItem = new MealtimeItem("test", "test desc", new ArrayList<>());
     }
 
     @Test

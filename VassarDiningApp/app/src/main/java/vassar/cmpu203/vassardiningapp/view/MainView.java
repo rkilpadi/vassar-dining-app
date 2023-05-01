@@ -1,5 +1,6 @@
 package vassar.cmpu203.vassardiningapp.view;
 
+import android.app.Activity;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;

@@ -2,8 +2,9 @@ package vassar.cmpu203.vassardiningapp.view;
 
 import java.util.List;
 
-import vassar.cmpu203.vassardiningapp.model.Menu;
-import vassar.cmpu203.vassardiningapp.model.MenuItem;
+import vassar.cmpu203.vassardiningapp.model.MealtimeMenu;
+import vassar.cmpu203.vassardiningapp.model.MealtimeItem;
+import vassar.cmpu203.vassardiningapp.model.User;
 
 public interface IMenuSelectView {
 
@@ -11,8 +12,12 @@ public interface IMenuSelectView {
 
         void onMenuFieldSelected(String cafe, String mealtime);
 
-        void onFavorite(MenuItem item);
+        void onFavorite(MealtimeItem item);
+
+        void updateVisibleMenu();
+
+        User getUser();
     }
 
-    void updateMenuDisplay(List<Menu> menu);
+    void updateMenuDisplay(List<MealtimeMenu> menu);
 }

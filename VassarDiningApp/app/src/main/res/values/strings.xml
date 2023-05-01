@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VassarDiningApp</string>
+    <string name="app_name">Vassar Dining</string>
     <string name="select_cafe">Select cafe</string>
     <string name="select_mealtime">Select mealtime</string>
     <string name="no_menu_to_display">No menu to display</string>

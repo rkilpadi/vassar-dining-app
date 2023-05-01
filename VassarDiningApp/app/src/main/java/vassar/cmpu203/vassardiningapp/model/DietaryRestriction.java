@@ -6,8 +6,8 @@ import vassar.cmpu203.vassardiningapp.R;
  * Represents dietary restrictions and relates them to symbols to be displayed on the menu.
  */
 public enum DietaryRestriction {
-    VEGETARIAN (R.drawable.vegetarian),
-    VEGAN (R.drawable.vegan);
+    VEGETARIAN (R.drawable.ic_vegetarian),
+    VEGAN (R.drawable.ic_vegan);
 
     private final int iconId;
 
