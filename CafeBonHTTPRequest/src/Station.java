@@ -15,11 +15,19 @@ public class Station {
         return label;
     }
 
-    public List<String> getItems() {
-        return items;
+    public MenuItem getItems() {
+        return (MenuItem) items;
     }
 
     public boolean hasMenuItem(String itemId) {
         return items.contains(itemId);
+    }
+
+    @Override
+    public String toString() {
+        return "Station{" +
+                "label='" + label + '\'' +
+                ", items=" + items +
+                '}';
     }
 }

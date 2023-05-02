@@ -4,40 +4,53 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
-    public class Cafe {
-        private String name;
-        private List<Mealtime> mealtimes;
+public class Cafe {
+    private String label;
+    private String starttime;
+    private String endtime;
+    private List<Station> stations;
 
-        public Cafe(String name, List<Mealtime> mealtimes) {
-            this.name = name;
-            this.mealtimes = mealtimes;
-        }
+    public Cafe(String name, String startTime, String endTime, List<Station> stations) {
+        this.label = label;
+        this.starttime = starttime;
+        this.endtime = endtime;
+        this.stations = stations;
+    }
 
-        public String getName() {
-            return name;
-        }
+    public String getName() {
+        return label;
+    }
 
-        public List<Mealtime> getMealtimes() {
-            return mealtimes;
-        }
+    public String getStartTime() {
+        return starttime;
+    }
 
-        public Mealtime getMealTime(String mealtime) {
-            for (Mealtime m : mealtimes) {
-                if (m.getStartTime().equalsIgnoreCase(mealtime)) {
-                    return m;
-                }
-            }
+    public String getEndTime() {
+        return endtime;
+    }
 
-            return null;
-        }
+    public List<Station> getStations() {
+        return stations;
+    }
 
-        public static Cafe convert(String json) {
-            Gson gson = new Gson();
-            return gson.fromJson(json, Cafe.class);
-        }
+    public void setStations(List<Station> stations) {
+        this.stations = stations;
+    }
 
-
-
+    public static Cafe convert(String json) {
+        Gson gson = new Gson();
+        return gson.fromJson(json, Cafe.class);
     }
 
 
+
+    @Override
+    public String toString() {
+        return "Cafe{" +
+                "name='" + label + '\'' +
+                ", startTime='" + starttime + '\'' +
+                ", endTime='" + endtime + '\'' +
+                ", stations=" + stations +
+                '}';
+    }
+}

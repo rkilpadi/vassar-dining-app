@@ -35,4 +35,13 @@ public class Mealtime {
 
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "Mealtime{" +
+                "startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", stations=" + stations +
+                '}';
+    }
 }

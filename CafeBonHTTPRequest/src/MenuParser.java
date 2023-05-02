@@ -1,7 +1,12 @@
 package CafeBonHTTPRequest.src;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -83,9 +88,12 @@ public class MenuParser {
             return;
         }
 
+        /*
         for (String mealTime : bamcoDayParts) {
             System.out.println(mealTime);
         }
+
+         */
 
 
         // Loop over the bamcoDayParts ArrayList and skip over any strings that contain "No match found for"
@@ -100,14 +108,19 @@ public class MenuParser {
 
                 //Parse the JSON string as a Map of Café objects
                 String mealTimeJson = gson.toJson(jsonMealTimeElement);
-                System.out.println(mealTimeJson);
-                Map<String, Cafe> cafes = gson.fromJson(mealTimeJson, new TypeToken<Map<String, Cafe>>() {}.getType());
+                //PrettyPrint CafeJSON
+                //System.out.println(mealTimeJson);
 
-                // Create a Café object for each mealtime in the Cafe
-                for (Mealtime mealtime : cafes.get("regular").getMealtimes()) {
+                Cafe newCafe = gson.fromJson(mealTimeJson, Cafe.class);
+                System.out.println(newCafe.toString());
+                //Map<String, Cafe> cafes = gson.fromJson(removeQuotesAndUnescape(mealTimeJson), new TypeToken<Map<String, Cafe>>() {}.getType());
+
+                // Create a Café object for each mealtime in the Café
+                /*for (Mealtime mealtime : cafes.get("regular").getMealtimes()) {
                     Cafe cafe = new Cafe(cafeName, Collections.singletonList(mealtime));
                     System.out.println(cafe.toString());
                 }
+                 */
             //} catch (JsonSyntaxException e) {
                 //System.out.println("Invalid JSON string: " + bamcoDayPart);
             //}
@@ -161,7 +174,7 @@ public class MenuParser {
         return true;
     }
 
-    private static ArrayList<String> bamcoDayParts( String html, List<String> numDayParts) {
+    private static ArrayList<String> bamcoDayParts(@NotNull String html, List<String> numDayParts) {
         ArrayList<String> bamcoMealTimeStringList = new ArrayList<>();
         for (String numDayPart : numDayParts) {
             String pattern = "Bamco\\.dayparts\\['" + Pattern.quote(numDayPart) + "'\\] = (.*?);";
@@ -176,4 +189,11 @@ public class MenuParser {
         }
         return bamcoMealTimeStringList;
     }
+
+    private String removeQuotesAndUnescape(String uncleanJson) {
+        String noQuotes = uncleanJson.replaceAll("^\"|\"$", "");
+
+        return StringEscapeUtils.unescapeJava(noQuotes);
+    }
+
 }
