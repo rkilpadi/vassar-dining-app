@@ -2,7 +2,12 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="heart"
+    <item android:title="@string/apply_filters_button"
+        android:id="@+id/apply_filter_button"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_empty_dining"/>
+
+    <item android:title="@string/favorite_filter_button"
         android:id="@+id/favorite_filter_button"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_white_empty_heart"/>

@@ -1,6 +1,7 @@
 package vassar.cmpu203.vassardiningapp.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /** A mock database containing populated menus for testing */
@@ -12,13 +13,13 @@ public class Data {
     public static void populateMenus() {
         ArrayList<MealtimeItem> breakfastItems = new ArrayList<>();
         ArrayList<MealtimeItem> lunchItems = new ArrayList<>();
-        MealtimeItem eggs = new MealtimeItem("eggs", "scrambled", new ArrayList<>(List.of(DietaryRestriction.VEGETARIAN)));
+        MealtimeItem eggs = new MealtimeItem("eggs", "scrambled", new HashSet<>(List.of(DietaryRestriction.VEGETARIAN)));
 
         breakfastItems.add(eggs);
-        breakfastItems.add(new MealtimeItem("bacon", "crispy", new ArrayList<>()));
+        breakfastItems.add(new MealtimeItem("bacon", "crispy", new HashSet<>()));
         lunchItems.add(eggs);
-        lunchItems.add(new MealtimeItem("pasta", "", new ArrayList<>(List.of(DietaryRestriction.VEGETARIAN))));
-        lunchItems.add(new MealtimeItem("salad", "", new ArrayList<>(List.of(DietaryRestriction.VEGAN, DietaryRestriction.VEGETARIAN))));
+        lunchItems.add(new MealtimeItem("pasta", "", new HashSet<>(List.of(DietaryRestriction.VEGETARIAN))));
+        lunchItems.add(new MealtimeItem("salad", "", new HashSet<>(List.of(DietaryRestriction.VEGAN, DietaryRestriction.VEGETARIAN))));
 
         MealtimeMenu breakfast = new MealtimeMenu("deece", "today", "breakfast", breakfastItems);
         MealtimeMenu lunch = new MealtimeMenu("deece", "today", "lunch", lunchItems);

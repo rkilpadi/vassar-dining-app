@@ -6,16 +6,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
 
 import vassar.cmpu203.vassardiningapp.databinding.RestrictionIconBinding;
 import vassar.cmpu203.vassardiningapp.model.DietaryRestriction;
 
-public class RestrictionIconsAdapter extends RecyclerView.Adapter<RestrictionIconsAdapter.ViewHolder> {
+public class RestrictionIconAdapter extends RecyclerView.Adapter<RestrictionIconAdapter.ViewHolder> {
 
-    private final List<DietaryRestriction> restrictions;
+    private final Set<DietaryRestriction> restrictions;
 
-    public RestrictionIconsAdapter(List<DietaryRestriction> restrictions) {
+    public RestrictionIconAdapter(Set<DietaryRestriction> restrictions) {
         this.restrictions = restrictions;
     }
 
@@ -27,7 +28,7 @@ public class RestrictionIconsAdapter extends RecyclerView.Adapter<RestrictionIco
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.setData(restrictions.get(position));
+        holder.setData(new ArrayList<>(restrictions).get(position));
     }
 
     @Override

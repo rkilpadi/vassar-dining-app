@@ -1,5 +1,6 @@
 package vassar.cmpu203.vassardiningapp.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.List;
 
 import vassar.cmpu203.vassardiningapp.R;
@@ -22,14 +25,14 @@ import vassar.cmpu203.vassardiningapp.databinding.MenuItemBinding;
 import vassar.cmpu203.vassardiningapp.model.MealtimeItem;
 import vassar.cmpu203.vassardiningapp.model.MealtimeMenu;
 
-public class ExpandableAdapter extends RecyclerView.Adapter<ExpandableAdapter.MenusViewHolder> {
+public class ExpandableMealtimeAdapter extends RecyclerView.Adapter<ExpandableMealtimeAdapter.MenusViewHolder> {
 
     private List<MealtimeMenu> menus;
     private final Context context;
     private final IMenuSelectView.Listener listener;
     private MealtimeItemBinding binding;
 
-    public ExpandableAdapter(List<MealtimeMenu> menus, Context context, IMenuSelectView.Listener listener) {
+    public ExpandableMealtimeAdapter(List<MealtimeMenu> menus, Context context, IMenuSelectView.Listener listener) {
         this.menus = menus;
         this.context = context;
         this.listener = listener;
@@ -42,6 +45,7 @@ public class ExpandableAdapter extends RecyclerView.Adapter<ExpandableAdapter.Me
         return new MenusViewHolder(binding);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public final void onBindViewHolder(@NonNull MenusViewHolder holder, int position) {
         MealtimeMenu menu = menus.get(position);
@@ -59,14 +63,14 @@ public class ExpandableAdapter extends RecyclerView.Adapter<ExpandableAdapter.Me
             itemBinding.itemText.setText(item.getName());
             itemBinding.itemDesc.setText(item.getDescription());
             itemRestrictions.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
-            itemRestrictions.setAdapter(new RestrictionIconsAdapter(item.getDietaryRestrictions()));
+            itemRestrictions.setAdapter(new RestrictionIconAdapter(item.getDietaryRestrictions()));
             itemContainer.addView(itemView);
 
             ToggleButton heart = itemBinding.heartToggle;
             heart.setBackgroundDrawable(ContextCompat.getDrawable(context,
                     listener.getUser().getFavorites().contains(item) ? R.drawable.ic_red_filled_heart : R.drawable.ic_red_empty_heart
             ));
-            heart.setOnClickListener(v -> {
+            heart.setOnClickListener(view -> {
                 heart.setBackgroundDrawable(ContextCompat.getDrawable(context,
                         heart.isChecked() ? R.drawable.ic_red_filled_heart : R.drawable.ic_red_empty_heart
                 ));
@@ -75,9 +79,14 @@ public class ExpandableAdapter extends RecyclerView.Adapter<ExpandableAdapter.Me
             });
         }
 
-        mealtimeTitle.setOnClickListener(v -> itemContainer.setVisibility(
-                itemContainer.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE
-        ));
+        mealtimeTitle.setOnClickListener(view -> {
+            itemContainer.setVisibility(
+                    itemContainer.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE
+            );
+            if (itemContainer.getChildCount() == 0) {
+                Snackbar.make(view, "No items to display", Snackbar.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -85,7 +94,8 @@ public class ExpandableAdapter extends RecyclerView.Adapter<ExpandableAdapter.Me
         return menus.size();
     }
 
-    public void updateMenus(List<MealtimeMenu> menus) {
+    @SuppressLint("NotifyDataSetChanged")
+    public void setMenus(List<MealtimeMenu> menus) {
         this.menus = menus;
         this.notifyDataSetChanged();
     }

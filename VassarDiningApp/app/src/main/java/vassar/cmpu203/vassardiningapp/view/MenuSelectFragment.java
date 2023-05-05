@@ -31,7 +31,7 @@ public class MenuSelectFragment extends Fragment implements IMenuSelectView, Men
 
     private final Listener listener;
     private FragmentMenuSelectBinding binding;
-    private ExpandableAdapter itemsAdapter;
+    private ExpandableMealtimeAdapter itemsAdapter;
 
     public MenuSelectFragment(Listener listener) {
         this.listener = listener;
@@ -58,14 +58,14 @@ public class MenuSelectFragment extends Fragment implements IMenuSelectView, Men
 
     @Override
     public void updateMenuDisplay(List<MealtimeMenu> menu) {
-        Snackbar menuNotFound = Snackbar.make(binding.getRoot(), "Menu not found", Snackbar.LENGTH_SHORT);
-        if (menu.isEmpty()) menuNotFound.show();
-
+        if (menu.isEmpty()) {
+            Snackbar.make(binding.getRoot(), "Menu not found", Snackbar.LENGTH_SHORT).show();
+        }
         if (itemsAdapter == null) {
-            itemsAdapter = new ExpandableAdapter(menu, getContext(), listener);
+            itemsAdapter = new ExpandableMealtimeAdapter(menu, getContext(), listener);
             binding.itemRecycler.setAdapter(itemsAdapter);
         } else {
-            itemsAdapter.updateMenus(menu);
+            itemsAdapter.setMenus(menu);
         }
     }
 
@@ -94,12 +94,17 @@ public class MenuSelectFragment extends Fragment implements IMenuSelectView, Men
     }
 
     @Override
-    public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-        if (menuItem.getItemId() == R.id.favorite_filter_button) {
+    public boolean onMenuItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.favorite_filter_button) {
             listener.getUser().toggleFavoriteFilter();
-            menuItem.setIcon(listener.getUser().isFavoriteFiltered() ? R.drawable.ic_white_filled_heart : R.drawable.ic_white_empty_heart);
+            item.setIcon(listener.getUser().isFavoriteFiltered() ? R.drawable.ic_white_filled_heart : R.drawable.ic_white_empty_heart);
             listener.updateVisibleMenu();
             return true;
+        } else if (id == R.id.apply_filter_button) {
+            listener.getUser().toggleRestrictionFilter();
+            item.setIcon(listener.getUser().isRestrictionFiltered() ? R.drawable.ic_filled_dining : R.drawable.ic_empty_dining);
+            listener.updateVisibleMenu();
         }
         return false;
     }

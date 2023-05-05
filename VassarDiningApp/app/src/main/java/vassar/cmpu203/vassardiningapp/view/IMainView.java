@@ -2,6 +2,7 @@ package vassar.cmpu203.vassardiningapp.view;
 
 import android.view.View;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.fragment.app.Fragment;
 
 /**
@@ -14,6 +15,8 @@ public interface IMainView {
      * @return the screen's root android view (widget)
      */
     View getRootView();
+
+    ActionBarDrawerToggle setupActionBar();
 
     /**
      * Replaces the contents of the screen's fragment container with the one passed in as an argument.

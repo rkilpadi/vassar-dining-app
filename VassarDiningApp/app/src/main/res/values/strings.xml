@@ -6,6 +6,7 @@
     <string name="textview">TextView</string>
 
     <string name="default_cafe">deece</string>
+
     <string-array name="cafes">
         <item name="default_cafe">@string/default_cafe</item>
         <item>retreat</item>
@@ -22,4 +23,13 @@
         <item>lunch</item>
         <item>dinner</item>
     </string-array>
+
+    <string name="drawer_menu">Menu</string>
+    <string name="drawer_favorites">Favorites</string>
+    <string name="drawer_restrictions">Dietary Restrictions</string>
+    <string name="restriction_icon">restriction_icon</string>
+    <string name="favorite_filter_button">Apply Favorite Filter</string>
+    <string name="apply_filters_button">Apply Dietary Filters</string>
+    <string name="drawer_open">Open Drawer Menu</string>
+    <string name="drawer_close">Close Drawer Menu</string>
 </resources>

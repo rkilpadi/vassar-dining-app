@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/group_fragments"
+        android:checkableBehavior="single">
+        <item android:id="@+id/navigation_menu"
+            android:title="@string/drawer_menu"/>
+        <item android:id="@+id/navigation_favorites"
+            android:title="@string/drawer_favorites"/>
+        <item android:id="@+id/navigation_restrictions"
+            android:title="@string/drawer_restrictions"/>
+    </group>
+</menu>
