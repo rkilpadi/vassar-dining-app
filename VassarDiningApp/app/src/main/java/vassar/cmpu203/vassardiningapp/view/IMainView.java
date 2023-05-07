@@ -18,13 +18,14 @@ public interface IMainView {
 
     ActionBarDrawerToggle setupActionBar();
 
+    void closeDrawer();
+
     /**
      * Replaces the contents of the screen's fragment container with the one passed in as an argument.
      *
      * @param fragment The fragment to be displayed.
      * @param reversible true if this transaction should be reversible, false otherwise
-     * @param name the name this transaction can be referred by.
      */
-    void displayFragment(Fragment fragment, boolean reversible, String name);
+    void displayFragment(Fragment fragment, boolean reversible);
 
 }

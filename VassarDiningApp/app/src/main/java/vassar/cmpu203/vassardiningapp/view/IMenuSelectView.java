@@ -20,4 +20,6 @@ public interface IMenuSelectView {
     }
 
     void updateMenuDisplay(List<MealtimeMenu> menu);
+
+    void refreshFavoriteIcons();
 }

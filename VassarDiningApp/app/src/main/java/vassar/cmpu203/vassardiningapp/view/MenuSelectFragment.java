@@ -1,5 +1,6 @@
 package vassar.cmpu203.vassardiningapp.view;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -50,23 +51,10 @@ public class MenuSelectFragment extends Fragment implements IMenuSelectView, Men
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
-        binding.itemRecycler.setLayoutManager(layoutManager);
+        binding.mealtimeRecycler.setLayoutManager(layoutManager);
 
         populateSpinner(view, binding.cafeSpinner, R.array.cafes);
         populateSpinner(view, binding.dateSpinner, R.array.dates);
-    }
-
-    @Override
-    public void updateMenuDisplay(List<MealtimeMenu> menu) {
-        if (menu.isEmpty()) {
-            Snackbar.make(binding.getRoot(), "Menu not found", Snackbar.LENGTH_SHORT).show();
-        }
-        if (itemsAdapter == null) {
-            itemsAdapter = new ExpandableMealtimeAdapter(menu, getContext(), listener);
-            binding.itemRecycler.setAdapter(itemsAdapter);
-        } else {
-            itemsAdapter.setMenus(menu);
-        }
     }
 
     private void populateSpinner(View view, Spinner spinner, int textArrayResId) {
@@ -86,6 +74,26 @@ public class MenuSelectFragment extends Fragment implements IMenuSelectView, Men
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+    }
+
+
+    @Override
+    public void updateMenuDisplay(List<MealtimeMenu> menu) {
+        if (menu.isEmpty()) {
+            Snackbar.make(binding.getRoot(), "Menu not found", Snackbar.LENGTH_SHORT).show();
+        }
+        if (itemsAdapter == null) {
+            itemsAdapter = new ExpandableMealtimeAdapter(menu, getContext(), listener);
+            binding.mealtimeRecycler.setAdapter(itemsAdapter);
+        } else {
+            itemsAdapter.setMenus(menu);
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void refreshFavoriteIcons() {
+        itemsAdapter.notifyDataSetChanged();
     }
 
     @Override

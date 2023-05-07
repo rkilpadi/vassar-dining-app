@@ -6,12 +6,9 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,18 +16,15 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-import vassar.cmpu203.vassardiningapp.R;
-import vassar.cmpu203.vassardiningapp.databinding.MealtimeItemBinding;
-import vassar.cmpu203.vassardiningapp.databinding.MenuItemBinding;
-import vassar.cmpu203.vassardiningapp.model.MealtimeItem;
+import vassar.cmpu203.vassardiningapp.databinding.MealtimeMenuBinding;
 import vassar.cmpu203.vassardiningapp.model.MealtimeMenu;
 
-public class ExpandableMealtimeAdapter extends RecyclerView.Adapter<ExpandableMealtimeAdapter.MenusViewHolder> {
+public class ExpandableMealtimeAdapter extends RecyclerView.Adapter<ExpandableMealtimeAdapter.ViewHolder> {
 
     private List<MealtimeMenu> menus;
     private final Context context;
     private final IMenuSelectView.Listener listener;
-    private MealtimeItemBinding binding;
+    private MealtimeMenuBinding binding;
 
     public ExpandableMealtimeAdapter(List<MealtimeMenu> menus, Context context, IMenuSelectView.Listener listener) {
         this.menus = menus;
@@ -40,50 +34,27 @@ public class ExpandableMealtimeAdapter extends RecyclerView.Adapter<ExpandableMe
 
     @NonNull
     @Override
-    public MenusViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = MealtimeItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new MenusViewHolder(binding);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        binding = MealtimeMenuBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new ViewHolder(binding);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     @Override
-    public final void onBindViewHolder(@NonNull MenusViewHolder holder, int position) {
+    public final void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MealtimeMenu menu = menus.get(position);
         TextView mealtimeTitle = holder.binding.mealtimeTitle;
-        LinearLayout itemContainer = holder.binding.itemContainer;
+        RecyclerView itemContainer = holder.binding.itemContainer;
 
         mealtimeTitle.setText(menu.getMealtime());
-        itemContainer.removeAllViews();
 
-        for (MealtimeItem item : menu.getMenuItems()) {
-            MenuItemBinding itemBinding = MenuItemBinding.inflate(LayoutInflater.from(context), binding.itemContainer, false);
-            View itemView = itemBinding.getRoot();
-            RecyclerView itemRestrictions = itemBinding.restrictionIconRecycler;
-
-            itemBinding.itemText.setText(item.getName());
-            itemBinding.itemDesc.setText(item.getDescription());
-            itemRestrictions.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
-            itemRestrictions.setAdapter(new RestrictionIconAdapter(item.getDietaryRestrictions()));
-            itemContainer.addView(itemView);
-
-            ToggleButton heart = itemBinding.heartToggle;
-            heart.setBackgroundDrawable(ContextCompat.getDrawable(context,
-                    listener.getUser().getFavorites().contains(item) ? R.drawable.ic_red_filled_heart : R.drawable.ic_red_empty_heart
-            ));
-            heart.setOnClickListener(view -> {
-                heart.setBackgroundDrawable(ContextCompat.getDrawable(context,
-                        heart.isChecked() ? R.drawable.ic_red_filled_heart : R.drawable.ic_red_empty_heart
-                ));
-                listener.onFavorite(item);
-                this.notifyDataSetChanged();
-            });
-        }
+        itemContainer.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        itemContainer.setAdapter(new MealtimeItemAdapter(menu.getMenuItems(), context, listener));
 
         mealtimeTitle.setOnClickListener(view -> {
             itemContainer.setVisibility(
                     itemContainer.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE
             );
-            if (itemContainer.getChildCount() == 0) {
+            if (menu.getMenuItems().isEmpty()) {
                 Snackbar.make(view, "No items to display", Snackbar.LENGTH_SHORT).show();
             }
         });
@@ -97,13 +68,13 @@ public class ExpandableMealtimeAdapter extends RecyclerView.Adapter<ExpandableMe
     @SuppressLint("NotifyDataSetChanged")
     public void setMenus(List<MealtimeMenu> menus) {
         this.menus = menus;
-        this.notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
-    public static class MenusViewHolder extends RecyclerView.ViewHolder {
-        private final MealtimeItemBinding binding;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final MealtimeMenuBinding binding;
 
-        public MenusViewHolder(@NonNull MealtimeItemBinding binding) {
+        public ViewHolder(@NonNull MealtimeMenuBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 

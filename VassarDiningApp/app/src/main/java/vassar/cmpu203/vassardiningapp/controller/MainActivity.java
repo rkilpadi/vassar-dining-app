@@ -50,19 +50,20 @@ public class MainActivity extends AppCompatActivity implements
         visibleMenu = new ArrayList<>(currentMenu);
 
         menuSelectFragment = new MenuSelectFragment(this);
-        mainView.displayFragment(menuSelectFragment, false, "menu");
+        mainView.displayFragment(menuSelectFragment, false);
     }
 
     @Override
     public void onMenuFieldSelected(String cafe, String date) {
         currentMenu = Data.findMenus(cafe, date);
         updateVisibleMenu();
-        mainView.displayFragment(menuSelectFragment, true, "menu");
+        mainView.displayFragment(menuSelectFragment, true);
     }
 
     @Override
     public void onFavorite(MealtimeItem item) {
         user.switchFavoriteStatus(item);
+        menuSelectFragment.refreshFavoriteIcons();
     }
 
     @Override
@@ -100,12 +101,14 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.navigation_menu) {
-            System.out.println("menu click");
+            mainView.displayFragment(menuSelectFragment, true);
         } else if (id == R.id.navigation_favorites) {
             System.out.println("favorites click");
         } else if (id == R.id.navigation_restrictions) {
             System.out.println("restrictions click");
         }
+        item.setChecked(true);
+        mainView.closeDrawer();
         return true;
     }
 }
