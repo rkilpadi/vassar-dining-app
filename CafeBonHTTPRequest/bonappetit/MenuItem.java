@@ -1,4 +1,4 @@
-package CafeBonHTTPRequest.src;
+package CafeBonHTTPRequest.bonappetit;
 
 import java.util.Map;
 
@@ -71,11 +71,11 @@ public class MenuItem {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Menu Item: ").append(label).append("\n");
-        sb.append("ID: ").append(id).append("\n");
+        //sb.append("ID: ").append(id).append("\n");
         sb.append("Description: ").append(description).append("\n");
-        sb.append("Tier: ").append(tier).append("\n");
-        sb.append("Station: ").append(this.getStation()).append("\n");
-        sb.append("Cor Icons: ").append("\n");
+        //sb.append("Tier: ").append(tier).append("\n");
+        //sb.append("vassar.cmpu203.vassardiningapp.model.bonappetit.Station: ").append(this.getStation()).append("\n");
+        sb.append("Dietary Restrictions: ").append("\n");
 
         for (Map.Entry<String, String> entry : cor_icon.entrySet()) {
             sb.append("\t- ").append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");

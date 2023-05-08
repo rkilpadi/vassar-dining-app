@@ -1,9 +1,6 @@
-package CafeBonHTTPRequest.src;
+package CafeBonHTTPRequest.bonappetit;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.jetbrains.annotations.NotNull;
@@ -13,25 +10,27 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MenuParser {
-    
-   private static final String USER_AGENT = "Mozilla/5.0";
 
-    public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
-        String cafeName;
+    private static final String USER_AGENT = "Mozilla/5.0";
+
+    // Map<Sting, MenuItem>
+    // return List<Menu> sorted by mealtime with the map
+    List<Menu> MenuParserMethod(String cafeName, String date) throws IOException {
+        //Scanner scanner = new Scanner(System.in);
 
         do {
             System.out.println("Please enter the name of the cafe (food-truck, the-retreat, or gordon): ");
-            cafeName = scanner.nextLine();
+            //cafeName = scanner.nextLine();
         } while (!isValidCafe(cafeName));
-        String date;
+
         do {
             System.out.println("Please enter the date in yyyy-mm-dd format: ");
-            date = scanner.nextLine();
+            //date = scanner.nextLine();
         } while (!isValidDate(date));
         String url = "https://vassar.cafebonappetit.com/cafe/" + cafeName + "/" + date + "/";
 
@@ -67,13 +66,22 @@ public class MenuParser {
 
         Map<String, MenuItem> menuItems = gson.fromJson(inputStreamReader, new TypeToken<Map<String, MenuItem>>() {
         }.getType());
+
+        ArrayList<MenuItem> menuItemArrayList = new ArrayList<>();
         //Print MenuItem objects
         for (Map.Entry<String, MenuItem> entry : menuItems.entrySet()) {
             MenuItem item = entry.getValue();
-            System.out.println(item.toString());
+            //ArrayList of menuItems
+            menuItemArrayList.add(item);
+            //Map of ID to menuItems
+            Map<String, MenuItem> idMenuItem = new HashMap<String, MenuItem>();
+            idMenuItem.put(item.getId(), item);
+            //System.out.println(item);
+            //System.out.println(idMenuItem);
         }
 
-        ArrayList<String> bamcoDayParts;
+
+        ArrayList<String> bamcoDayParts = null;
         if (cafeName.equals("gordon")) {
             ArrayList<String> deeceTime = new ArrayList<String>(Arrays.asList("1", "2", "3", "739", "4", "7"));
             bamcoDayParts = bamcoDayParts(urlBody, deeceTime);
@@ -85,17 +93,12 @@ public class MenuParser {
             bamcoDayParts = bamcoDayParts(urlBody, streetEatsTime);
         } else {
             System.out.println("Invalid cafe name: " + cafeName);
-            return;
+
         }
 
-        /*
-        for (String mealTime : bamcoDayParts) {
-            System.out.println(mealTime);
-        }
-
-         */
 
 
+        ArrayList<Menu> resultList = new ArrayList<>();
         // Loop over the bamcoDayParts ArrayList and skip over any strings that contain "No match found for"
         for (String bamcoDayPart : bamcoDayParts) {
             if (bamcoDayPart.contains("No match found for")) {
@@ -103,30 +106,23 @@ public class MenuParser {
             }
 
             //Pretty print the JSON from the website
-           // try {
-                JsonElement jsonMealTimeElement = new JsonParser().parse(bamcoDayPart);
+            JsonElement jsonMealTimeElement = new JsonParser().parse(bamcoDayPart);
 
-                //Parse the JSON string as a Map of Café objects
-                String mealTimeJson = gson.toJson(jsonMealTimeElement);
-                //PrettyPrint CafeJSON
-                //System.out.println(mealTimeJson);
+            //Parse the JSON string as a Map of Café objects
+            String mealTimeJson = gson.toJson(jsonMealTimeElement);
+            //PrettyPrint CafeJSON
+            //System.out.println(mealTimeJson);
 
-                Cafe newCafe = gson.fromJson(mealTimeJson, Cafe.class);
-                System.out.println(newCafe.toString());
-                //Map<String, Cafe> cafes = gson.fromJson(removeQuotesAndUnescape(mealTimeJson), new TypeToken<Map<String, Cafe>>() {}.getType());
+            MenuRawData newMealtime = gson.fromJson(mealTimeJson, MenuRawData.class);
 
-                // Create a Café object for each mealtime in the Café
-                /*for (Mealtime mealtime : cafes.get("regular").getMealtimes()) {
-                    Cafe cafe = new Cafe(cafeName, Collections.singletonList(mealtime));
-                    System.out.println(cafe.toString());
-                }
-                 */
-            //} catch (JsonSyntaxException e) {
-                //System.out.println("Invalid JSON string: " + bamcoDayPart);
-            //}
+            Menu finalMenu = new Menu(cafeName, date);
+
+            finalMenu.parseMealtimeRawData(newMealtime, menuItemArrayList);
+            resultList.add(finalMenu);
+
+
         }
-
-    }
+        return resultList;}
 
 
 

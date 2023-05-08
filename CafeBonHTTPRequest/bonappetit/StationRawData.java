@@ -1,12 +1,12 @@
-package CafeBonHTTPRequest.src;
+package CafeBonHTTPRequest.bonappetit;
 
 import java.util.List;
 
-public class Station {
+public class StationRawData {
     private String label;
     private List<String> items;
 
-    public Station(String label, List<String> items) {
+    public StationRawData(String label, List<String> items) {
         this.label = label;
         this.items = items;
     }
@@ -15,8 +15,9 @@ public class Station {
         return label;
     }
 
-    public MenuItem getItems() {
-        return (MenuItem) items;
+    public List<String> getItems() {
+
+        return items;
     }
 
     public boolean hasMenuItem(String itemId) {
@@ -25,7 +26,7 @@ public class Station {
 
     @Override
     public String toString() {
-        return "Station{" +
+        return "vassar.cmpu203.vassardiningapp.model.bonappetit.Station{" +
                 "label='" + label + '\'' +
                 ", items=" + items +
                 '}';

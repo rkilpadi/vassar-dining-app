@@ -1,20 +1,20 @@
-package CafeBonHTTPRequest.src;
+package CafeBonHTTPRequest.bonappetit;
 
 import com.google.gson.Gson;
 
 import java.util.List;
 
-public class Cafe {
+public class MenuRawData {
     private String label;
     private String starttime;
     private String endtime;
-    private List<Station> stations;
+    private List<StationRawData> stations;
 
-    public Cafe(String name, String startTime, String endTime, List<Station> stations) {
+    public MenuRawData(String name, String startTime, String endTime, List<StationRawData> stationRawData) {
         this.label = label;
         this.starttime = starttime;
         this.endtime = endtime;
-        this.stations = stations;
+        this.stations = stationRawData;
     }
 
     public String getName() {
@@ -29,24 +29,24 @@ public class Cafe {
         return endtime;
     }
 
-    public List<Station> getStations() {
+    public List<StationRawData> getStations() {
         return stations;
     }
 
-    public void setStations(List<Station> stations) {
-        this.stations = stations;
+    public void setStations(List<StationRawData> stationRawData) {
+        this.stations = stationRawData;
     }
 
-    public static Cafe convert(String json) {
+    public static MenuRawData convert(String json) {
         Gson gson = new Gson();
-        return gson.fromJson(json, Cafe.class);
+        return gson.fromJson(json, MenuRawData.class);
     }
 
 
 
     @Override
     public String toString() {
-        return "Cafe{" +
+        return "Mealtime{" +
                 "name='" + label + '\'' +
                 ", startTime='" + starttime + '\'' +
                 ", endTime='" + endtime + '\'' +
