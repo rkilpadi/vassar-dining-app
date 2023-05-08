@@ -32,4 +32,5 @@
     <string name="apply_filters_button">Apply Dietary Filters</string>
     <string name="drawer_open">Open Drawer Menu</string>
     <string name="drawer_close">Close Drawer Menu</string>
+    <string name="favorites">Favorites</string>
 </resources>

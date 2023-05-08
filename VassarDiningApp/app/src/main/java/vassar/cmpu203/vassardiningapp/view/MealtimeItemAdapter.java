@@ -22,21 +22,21 @@ public class MealtimeItemAdapter extends RecyclerView.Adapter<MealtimeItemAdapte
 
     List<MealtimeItem> items;
     Context context;
-    IMenuSelectView.Listener listener;
-    RecyclerView parent;
+    IFavoriteView.Listener listener;
+    IFavoriteView favoriteView;
     MealtimeItemBinding binding;
 
-    public MealtimeItemAdapter(List<MealtimeItem> items, Context context, IMenuSelectView.Listener listener) {
+    public MealtimeItemAdapter(List<MealtimeItem> items, Context context, IFavoriteView.Listener listener, IFavoriteView favoriteView) {
         this.items = items;
         this.context = context;
         this.listener = listener;
+        this.favoriteView = favoriteView;
     }
 
     @NonNull
     @Override
     public MealtimeItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         binding = MealtimeItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        this.parent = (RecyclerView) parent;
         return new ViewHolder(binding);
     }
 
@@ -50,19 +50,23 @@ public class MealtimeItemAdapter extends RecyclerView.Adapter<MealtimeItemAdapte
 
         binding.itemText.setText(item.getName());
         binding.itemDesc.setText(item.getDescription());
-        itemRestrictions.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(itemView.getContext());
+        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        itemRestrictions.setLayoutManager(layoutManager);
         itemRestrictions.setAdapter(new RestrictionIconAdapter(item.getDietaryRestrictions()));
 
         ToggleButton heart = binding.heartToggle;
+        boolean isFavorited = listener.getUser().getFavorites().contains(item);
+        heart.setChecked(isFavorited);
         heart.setBackgroundDrawable(ContextCompat.getDrawable(context,
-                listener.getUser().getFavorites().contains(item) ? R.drawable.ic_red_filled_heart : R.drawable.ic_red_empty_heart
+                isFavorited ? R.drawable.ic_red_filled_heart : R.drawable.ic_red_empty_heart
         ));
-        heart.setOnClickListener(view -> {
+
+        heart.setOnClickListener(v -> {
             heart.setBackgroundDrawable(ContextCompat.getDrawable(context,
                     heart.isChecked() ? R.drawable.ic_red_filled_heart : R.drawable.ic_red_empty_heart
             ));
-            listener.onFavorite(item);
-            notifyDataSetChanged();
+            listener.onFavoriteClicked(item, favoriteView);
         });
     }
 
@@ -77,8 +81,6 @@ public class MealtimeItemAdapter extends RecyclerView.Adapter<MealtimeItemAdapte
         public ViewHolder(@NonNull MealtimeItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-
         }
     }
-
 }

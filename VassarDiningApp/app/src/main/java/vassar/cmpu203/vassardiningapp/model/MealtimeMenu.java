@@ -32,12 +32,4 @@ public class MealtimeMenu {
     public List<MealtimeItem> getMenuItems() {
         return menuItems;
     }
-
-    @Override
-    public boolean equals(Object other) {
-        return other instanceof MealtimeMenu &&
-                ((MealtimeMenu) other).cafe.equals(this.cafe) &&
-                ((MealtimeMenu) other).mealtime.equals(this.mealtime);
-    }
 }
-
