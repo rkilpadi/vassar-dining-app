@@ -45,7 +45,7 @@ public class RestrictionIconAdapter extends RecyclerView.Adapter<RestrictionIcon
         }
 
         public void setData(DietaryRestriction restriction) {
-            this.binding.restrictionIcon.setImageResource(restriction.getIconId());
+            binding.restrictionIcon.setImageResource(restriction.getIconId());
         }
     }
 }

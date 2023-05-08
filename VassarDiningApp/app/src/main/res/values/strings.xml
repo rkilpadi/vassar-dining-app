@@ -33,4 +33,5 @@
     <string name="drawer_open">Open Drawer Menu</string>
     <string name="drawer_close">Close Drawer Menu</string>
     <string name="favorites">Favorites</string>
+    <string name="dietary_restrictions">Dietary Restrictions</string>
 </resources>

@@ -11,24 +11,23 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import vassar.cmpu203.vassardiningapp.databinding.FragmentManageRestrictionsBinding;
+import vassar.cmpu203.vassardiningapp.model.DietaryRestriction;
+import vassar.cmpu203.vassardiningapp.model.User;
 
-import vassar.cmpu203.vassardiningapp.databinding.FragmentManageFavoritesBinding;
-import vassar.cmpu203.vassardiningapp.model.MealtimeItem;
+public class ManageRestrictionsFragment extends Fragment {
 
-public class ManageFavoritesFragment extends Fragment implements IFavoriteView {
+    User user;
+    FragmentManageRestrictionsBinding binding;
 
-    IMenuSelectView.Listener listener;
-    FragmentManageFavoritesBinding binding;
-
-    public ManageFavoritesFragment(IMenuSelectView.Listener listener) {
-        this.listener = listener;
+    public ManageRestrictionsFragment(User user) {
+        this.user = user;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentManageFavoritesBinding.inflate(inflater);
+        binding = FragmentManageRestrictionsBinding.inflate(inflater);
         return binding.getRoot();
     }
 
@@ -38,9 +37,9 @@ public class ManageFavoritesFragment extends Fragment implements IFavoriteView {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
-        binding.favoritesRecycler.setLayoutManager(layoutManager);
+        binding.restrictionCheckRecycler.setLayoutManager(layoutManager);
 
-        ArrayList<MealtimeItem> favorites = new ArrayList<>(listener.getUser().getFavorites());
-        binding.favoritesRecycler.setAdapter(new MealtimeItemAdapter(favorites, getContext(), listener, this));
+        DietaryRestriction[] restrictions = DietaryRestriction.class.getEnumConstants();
+        binding.restrictionCheckRecycler.setAdapter(new RestrictionCheckAdapter(restrictions, user));
     }
 }

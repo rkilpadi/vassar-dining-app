@@ -24,11 +24,11 @@ public class User {
      *
      * @param item the item to either add or remove from the set.
      */
-    public void switchFavoriteStatus(MealtimeItem item) {
-        if (this.favorites.contains(item)) {
-            this.favorites.remove(item);
+    public <T> void switchStatus(T item, Set<T> set) {
+        if (set.contains(item)) {
+            set.remove(item);
         } else {
-            this.favorites.add(item);
+            set.add(item);
         }
     }
 

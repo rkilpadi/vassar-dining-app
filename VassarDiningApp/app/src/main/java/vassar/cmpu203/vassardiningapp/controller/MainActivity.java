@@ -23,6 +23,7 @@ import vassar.cmpu203.vassardiningapp.view.IMainView;
 import vassar.cmpu203.vassardiningapp.view.IMenuSelectView;
 import vassar.cmpu203.vassardiningapp.view.MainView;
 import vassar.cmpu203.vassardiningapp.view.ManageFavoritesFragment;
+import vassar.cmpu203.vassardiningapp.view.ManageRestrictionsFragment;
 import vassar.cmpu203.vassardiningapp.view.MenuSelectFragment;
 
 public class MainActivity extends AppCompatActivity implements
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements
     private IMainView mainView;
     private final User user = new User();
     private ActionBarDrawerToggle drawerToggle;
+    private MenuSelectFragment menuSelectFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onFavoriteClicked(MealtimeItem item, IFavoriteView favoriteView) {
-        user.switchFavoriteStatus(item);
+        user.switchStatus(item, user.getFavorites());
         favoriteView.updateFavoriteDisplay();
     }
 
@@ -89,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements
         } else if (id == R.id.navigation_favorites) {
             mainView.displayFragment(new ManageFavoritesFragment(this), true);
         } else if (id == R.id.navigation_restrictions) {
-            System.out.println("restrictions click");
+            mainView.displayFragment(new ManageRestrictionsFragment(user), true);
         }
         mainView.closeDrawer();
         return true;
