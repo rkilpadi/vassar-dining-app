@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import vassar.cmpu203.vassardiningapp.R;
@@ -30,14 +31,15 @@ import vassar.cmpu203.vassardiningapp.model.MealtimeMenu;
 
 public class MenuSelectFragment extends Fragment implements IMenuSelectView, MenuProvider {
 
-    private final Listener listener;
+    private final IMenuSelectView.Listener listener;
     private FragmentMenuSelectBinding binding;
     private ExpandableMealtimeAdapter itemsAdapter;
 
-    public MenuSelectFragment(Listener listener) {
+    public MenuSelectFragment(IMenuSelectView.Listener listener) {
         this.listener = listener;
     }
 
+    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
         binding = FragmentMenuSelectBinding.inflate(inflater);
@@ -52,6 +54,8 @@ public class MenuSelectFragment extends Fragment implements IMenuSelectView, Men
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         binding.mealtimeRecycler.setLayoutManager(layoutManager);
+        itemsAdapter = new ExpandableMealtimeAdapter(new ArrayList<>(), getContext(), listener, this);
+        binding.mealtimeRecycler.setAdapter(itemsAdapter);
 
         populateSpinner(view, binding.cafeSpinner, R.array.cafes);
         populateSpinner(view, binding.dateSpinner, R.array.dates);
@@ -67,7 +71,8 @@ public class MenuSelectFragment extends Fragment implements IMenuSelectView, Men
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 listener.onMenuFieldSelected(
                         binding.cafeSpinner.getSelectedItem().toString(),
-                        binding.dateSpinner.getSelectedItem().toString()
+                        binding.dateSpinner.getSelectedItem().toString(),
+                        MenuSelectFragment.this
                 );
             }
 
@@ -76,29 +81,31 @@ public class MenuSelectFragment extends Fragment implements IMenuSelectView, Men
         });
     }
 
-
     @Override
-    public void updateMenuDisplay(List<MealtimeMenu> menu) {
+    public void updateMenuItems(List<MealtimeMenu> menu) {
         if (menu.isEmpty()) {
             Snackbar.make(binding.getRoot(), "Menu not found", Snackbar.LENGTH_SHORT).show();
         }
-        if (itemsAdapter == null) {
-            itemsAdapter = new ExpandableMealtimeAdapter(menu, getContext(), listener);
-            binding.mealtimeRecycler.setAdapter(itemsAdapter);
-        } else {
-            itemsAdapter.setMenus(menu);
-        }
+        itemsAdapter.setMenus(menu);
+        refreshMenu();
     }
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
-    public void refreshFavoriteIcons() {
+    public void refreshMenu() {
         itemsAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
         menuInflater.inflate(R.menu.main_action_bar, menu);
+        MenuItem favoriteFilterButton = menu.findItem(R.id.favorite_filter_button);
+        favoriteFilterButton.setIcon(listener.getUser().isFavoriteFiltered()
+                ? R.drawable.ic_white_filled_heart : R.drawable.ic_white_empty_heart);
+
+        MenuItem applyFilterButton = menu.findItem(R.id.apply_filter_button);
+        applyFilterButton.setIcon(listener.getUser().isRestrictionFiltered()
+                ? R.drawable.ic_filled_dining : R.drawable.ic_empty_dining);
     }
 
     @Override
@@ -107,12 +114,12 @@ public class MenuSelectFragment extends Fragment implements IMenuSelectView, Men
         if (id == R.id.favorite_filter_button) {
             listener.getUser().toggleFavoriteFilter();
             item.setIcon(listener.getUser().isFavoriteFiltered() ? R.drawable.ic_white_filled_heart : R.drawable.ic_white_empty_heart);
-            listener.updateVisibleMenu();
+            listener.updateVisibleMenu(this);
             return true;
         } else if (id == R.id.apply_filter_button) {
             listener.getUser().toggleRestrictionFilter();
             item.setIcon(listener.getUser().isRestrictionFiltered() ? R.drawable.ic_filled_dining : R.drawable.ic_empty_dining);
-            listener.updateVisibleMenu();
+            listener.updateVisibleMenu(this);
         }
         return false;
     }

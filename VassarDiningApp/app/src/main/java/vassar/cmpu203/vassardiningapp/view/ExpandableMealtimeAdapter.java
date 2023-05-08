@@ -24,12 +24,14 @@ public class ExpandableMealtimeAdapter extends RecyclerView.Adapter<ExpandableMe
     private List<MealtimeMenu> menus;
     private final Context context;
     private final IMenuSelectView.Listener listener;
+    private final IMenuSelectView menuSelectView;
     private MealtimeMenuBinding binding;
 
-    public ExpandableMealtimeAdapter(List<MealtimeMenu> menus, Context context, IMenuSelectView.Listener listener) {
+    public ExpandableMealtimeAdapter(List<MealtimeMenu> menus, Context context, IMenuSelectView.Listener listener, IMenuSelectView menuSelectView) {
         this.menus = menus;
         this.context = context;
         this.listener = listener;
+        this.menuSelectView = menuSelectView;
     }
 
     @NonNull
@@ -43,16 +45,18 @@ public class ExpandableMealtimeAdapter extends RecyclerView.Adapter<ExpandableMe
     public final void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MealtimeMenu menu = menus.get(position);
         TextView mealtimeTitle = holder.binding.mealtimeTitle;
-        RecyclerView itemContainer = holder.binding.itemContainer;
+        RecyclerView mealtimeRecycler = holder.binding.itemContainer;
 
         mealtimeTitle.setText(menu.getMealtime());
 
-        itemContainer.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        itemContainer.setAdapter(new MealtimeItemAdapter(menu.getMenuItems(), context, listener));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        mealtimeRecycler.setLayoutManager(layoutManager);
+        mealtimeRecycler.setAdapter(new MealtimeItemAdapter(menu.getMenuItems(), context, listener, menuSelectView));
 
         mealtimeTitle.setOnClickListener(view -> {
-            itemContainer.setVisibility(
-                    itemContainer.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE
+            mealtimeRecycler.setVisibility(
+                    mealtimeRecycler.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE
             );
             if (menu.getMenuItems().isEmpty()) {
                 Snackbar.make(view, "No items to display", Snackbar.LENGTH_SHORT).show();

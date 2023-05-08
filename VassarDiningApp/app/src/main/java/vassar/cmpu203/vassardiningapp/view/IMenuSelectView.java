@@ -3,23 +3,22 @@ package vassar.cmpu203.vassardiningapp.view;
 import java.util.List;
 
 import vassar.cmpu203.vassardiningapp.model.MealtimeMenu;
-import vassar.cmpu203.vassardiningapp.model.MealtimeItem;
-import vassar.cmpu203.vassardiningapp.model.User;
 
-public interface IMenuSelectView {
+public interface IMenuSelectView extends IFavoriteView {
 
-    interface Listener {
+    interface Listener extends IFavoriteView.Listener {
 
-        void onMenuFieldSelected(String cafe, String mealtime);
+        void onMenuFieldSelected(String cafe, String mealtime, IMenuSelectView view);
 
-        void onFavorite(MealtimeItem item);
-
-        void updateVisibleMenu();
-
-        User getUser();
+        void updateVisibleMenu(IMenuSelectView view);
     }
 
-    void updateMenuDisplay(List<MealtimeMenu> menu);
+    void updateMenuItems(List<MealtimeMenu> menu);
 
-    void refreshFavoriteIcons();
+    void refreshMenu();
+
+    @Override
+    default void updateFavoriteDisplay() {
+        refreshMenu();
+    }
 }

@@ -30,19 +30,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/cafe_spinner" />
 
-    <FrameLayout
-        android:layout_width="376dp"
-        android:layout_height="628dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="96dp"
-        app:layout_constraintStart_toStartOf="@+id/cafe_spinner"
-        app:layout_constraintTop_toTopOf="@+id/cafe_spinner">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/mealtime_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mealtime_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date_spinner"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

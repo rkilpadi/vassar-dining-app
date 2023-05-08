@@ -1,6 +1,8 @@
 package vassar.cmpu203.vassardiningapp.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -52,5 +54,21 @@ public class User {
 
     public void toggleRestrictionFilter() {
         restrictionFiltered = !restrictionFiltered;
+    }
+
+    public List<MealtimeMenu> filterMenus(List<MealtimeMenu> items) {
+        List<MealtimeMenu> filteredMenus = new ArrayList<>();
+        for (MealtimeMenu mealtimeMenu : items)  {
+            List<MealtimeItem> visibleItems = new ArrayList<>();
+            for (MealtimeItem mealtimeItem : mealtimeMenu.getMenuItems()) {
+                boolean matchFavorite = getFavorites().contains(mealtimeItem);
+                boolean matchRestriction = mealtimeItem.getDietaryRestrictions().containsAll(getDietaryRestrictions());
+                if ((!isFavoriteFiltered() || matchFavorite) && (!isRestrictionFiltered() || matchRestriction)) {
+                    visibleItems.add(mealtimeItem);
+                }
+            }
+            filteredMenus.add(new MealtimeMenu(mealtimeMenu.getCafe(), mealtimeMenu.getDate(), mealtimeMenu.getMealtime(), visibleItems));
+        }
+        return filteredMenus;
     }
 }

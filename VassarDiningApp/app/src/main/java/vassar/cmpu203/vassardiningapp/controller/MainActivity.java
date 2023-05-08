@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,17 +18,17 @@ import vassar.cmpu203.vassardiningapp.model.MealtimeItem;
 import vassar.cmpu203.vassardiningapp.model.MealtimeMenu;
 import vassar.cmpu203.vassardiningapp.model.User;
 import vassar.cmpu203.vassardiningapp.view.FragFactory;
+import vassar.cmpu203.vassardiningapp.view.IFavoriteView;
 import vassar.cmpu203.vassardiningapp.view.IMainView;
 import vassar.cmpu203.vassardiningapp.view.IMenuSelectView;
 import vassar.cmpu203.vassardiningapp.view.MainView;
+import vassar.cmpu203.vassardiningapp.view.ManageFavoritesFragment;
 import vassar.cmpu203.vassardiningapp.view.MenuSelectFragment;
 
 public class MainActivity extends AppCompatActivity implements
         IMenuSelectView.Listener, NavigationView.OnNavigationItemSelectedListener {
 
     private List<MealtimeMenu> currentMenu;
-    private List<MealtimeMenu> visibleMenu;
-    private MenuSelectFragment menuSelectFragment;
     private IMainView mainView;
     private final User user = new User();
     private ActionBarDrawerToggle drawerToggle;
@@ -47,23 +46,21 @@ public class MainActivity extends AppCompatActivity implements
 
         Data.populateMenus();
         currentMenu = Data.findMenus("deece", "today");
-        visibleMenu = new ArrayList<>(currentMenu);
 
-        menuSelectFragment = new MenuSelectFragment(this);
-        mainView.displayFragment(menuSelectFragment, false);
+        mainView.displayFragment(new MenuSelectFragment(this), false);
     }
 
     @Override
-    public void onMenuFieldSelected(String cafe, String date) {
+    public void onMenuFieldSelected(String cafe, String date, IMenuSelectView view) {
         currentMenu = Data.findMenus(cafe, date);
-        updateVisibleMenu();
-        mainView.displayFragment(menuSelectFragment, true);
+        updateVisibleMenu(view);
+        view.refreshMenu();
     }
 
     @Override
-    public void onFavorite(MealtimeItem item) {
+    public void onFavoriteClicked(MealtimeItem item, IFavoriteView favoriteView) {
         user.switchFavoriteStatus(item);
-        menuSelectFragment.refreshFavoriteIcons();
+        favoriteView.updateFavoriteDisplay();
     }
 
     @Override
@@ -72,21 +69,8 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void updateVisibleMenu() {
-        List<MealtimeMenu> newVisibleMenu = new ArrayList<>();
-        for (MealtimeMenu mealtimeMenu : currentMenu)  {
-            List<MealtimeItem> visibleItems = new ArrayList<>();
-            for (MealtimeItem mealtimeItem : mealtimeMenu.getMenuItems()) {
-                boolean validFavorite = !user.isFavoriteFiltered() || user.getFavorites().contains(mealtimeItem);
-                boolean validRestriction = !user.isRestrictionFiltered() || mealtimeItem.getDietaryRestrictions().containsAll(user.getDietaryRestrictions());
-                if (validFavorite && validRestriction) {
-                    visibleItems.add(mealtimeItem);
-                }
-            }
-            newVisibleMenu.add(new MealtimeMenu(mealtimeMenu.getCafe(), mealtimeMenu.getDate(), mealtimeMenu.getMealtime(), visibleItems));
-        }
-        this.visibleMenu = newVisibleMenu;
-        menuSelectFragment.updateMenuDisplay(visibleMenu);
+    public void updateVisibleMenu(IMenuSelectView view) {
+        view.updateMenuItems(user.filterMenus(currentMenu));
     }
 
     @Override
@@ -101,13 +85,12 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.navigation_menu) {
-            mainView.displayFragment(menuSelectFragment, true);
+            mainView.displayFragment(new MenuSelectFragment(this), true);
         } else if (id == R.id.navigation_favorites) {
-            System.out.println("favorites click");
+            mainView.displayFragment(new ManageFavoritesFragment(this), true);
         } else if (id == R.id.navigation_restrictions) {
             System.out.println("restrictions click");
         }
-        item.setChecked(true);
         mainView.closeDrawer();
         return true;
     }
