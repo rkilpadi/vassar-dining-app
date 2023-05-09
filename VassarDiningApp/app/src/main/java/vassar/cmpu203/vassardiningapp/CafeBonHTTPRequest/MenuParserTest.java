@@ -12,21 +12,12 @@ public class MenuParserTest {
     public static void main(String[] args) {
 
         String cafeName = "gordon"; // Change the cafe name as desired
-        String date = "2023-05-08"; // Change the date as desired
+        String date = "2023-05-09"; // Change the date as desired
 
-        Map<String, String> cor = new HashMap<>();
         try {
             List<Menu> menus = MenuParser.MenuParserMethod(cafeName, date);
 
-            for (Menu menu : menus) {
-                for (Station station : menu.getStations()) {
-                    for (MenuItem item : station.getItems()) {
-                        cor.putAll(item.getCor_icon());
-                    }
-                }
-                System.out.println(menus.get(0).toString());
-                System.out.println(cor.toString());
-            }
+            menus.forEach(menu -> System.out.println(menu.getMenuItems()));
         } catch (IOException e) {
             e.printStackTrace();
         }

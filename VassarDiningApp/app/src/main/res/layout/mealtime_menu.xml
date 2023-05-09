@@ -9,6 +9,7 @@
         android:id="@+id/mealtime_title"
         android:layout_width="match_parent"
         android:layout_height="46dp"
+        android:textStyle="bold"
         android:gravity="center" />
 
     <androidx.recyclerview.widget.RecyclerView

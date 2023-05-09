@@ -32,12 +32,12 @@ public class User {
         }
     }
 
-    public Set<DietaryRestriction> getDietaryRestrictions() {
-        return dietaryRestrictions;
-    }
-
     public void setDietaryRestrictions(Set<DietaryRestriction> dietaryRestrictions) {
         this.dietaryRestrictions = dietaryRestrictions;
+    }
+
+    public Set<DietaryRestriction> getDietaryRestrictions() {
+        return dietaryRestrictions;
     }
 
     public boolean isFavoriteFiltered() {
@@ -56,14 +56,26 @@ public class User {
         restrictionFiltered = !restrictionFiltered;
     }
 
+    public boolean matchRestriction(Set<DietaryRestriction> restrictionsToMatch) {
+        Set<DietaryRestriction> effectiveRestrictions = new HashSet<>(restrictionsToMatch);
+        if (effectiveRestrictions.contains(DietaryRestriction.VEGAN)) {
+            effectiveRestrictions.add(DietaryRestriction.KOSHER);
+            effectiveRestrictions.add(DietaryRestriction.VEGETARIAN);
+            effectiveRestrictions.add(DietaryRestriction.HALAL);
+        } else if (effectiveRestrictions.contains(DietaryRestriction.VEGETARIAN)) {
+            effectiveRestrictions.add(DietaryRestriction.HALAL);
+        }
+        return effectiveRestrictions.containsAll(dietaryRestrictions);
+    }
+
     public List<MealtimeMenu> filterMenus(List<MealtimeMenu> items) {
         List<MealtimeMenu> filteredMenus = new ArrayList<>();
-        for (MealtimeMenu mealtimeMenu : items)  {
+        for (MealtimeMenu mealtimeMenu : items) {
             List<MealtimeItem> visibleItems = new ArrayList<>();
             for (MealtimeItem mealtimeItem : mealtimeMenu.getMenuItems()) {
-                boolean matchFavorite = getFavorites().contains(mealtimeItem);
-                boolean matchRestriction = mealtimeItem.getDietaryRestrictions().containsAll(getDietaryRestrictions());
-                if ((!isFavoriteFiltered() || matchFavorite) && (!isRestrictionFiltered() || matchRestriction)) {
+                boolean matchFavorite = !isFavoriteFiltered() || getFavorites().contains(mealtimeItem);
+                boolean matchRestriction = !isRestrictionFiltered() || matchRestriction(mealtimeItem.getDietaryRestrictions());
+                if (matchFavorite && matchRestriction) {
                     visibleItems.add(mealtimeItem);
                 }
             }

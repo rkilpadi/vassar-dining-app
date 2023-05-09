@@ -11,14 +11,16 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import vassar.cmpu203.vassardiningapp.CafeBonHTTPRequest.MenuParser;
 import vassar.cmpu203.vassardiningapp.CafeBonHTTPRequest.Menu;
+import vassar.cmpu203.vassardiningapp.CafeBonHTTPRequest.MenuParser;
 import vassar.cmpu203.vassardiningapp.R;
 import vassar.cmpu203.vassardiningapp.model.Data;
 import vassar.cmpu203.vassardiningapp.model.MealtimeItem;
@@ -60,28 +62,35 @@ public class MainActivity extends AppCompatActivity implements
     private void loadData() {
         CompletableFuture.supplyAsync(() -> {
             try {
-                return MenuParser.MenuParserMethod("gordon", "2023-05-08");
+                String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                return MenuParser.MenuParserMethod("gordon", today);
             } catch (Exception e) {
                 throw new RuntimeException("Error fetching menu data", e);
             }
         }).whenCompleteAsync((result, throwable) -> {
             if (throwable == null) {
                 runOnUiThread(() -> {
-                    currentMenu = result.stream().map(Menu::toMealtimeMenu).collect(Collectors.toList());
-                    mainView.displayFragment(new MenuSelectFragment(this), false);
+                    try {
+                        currentMenu = result.stream().map(Menu::toMealtimeMenu).collect(Collectors.toList());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    mainView.displayFragment(new MenuSelectFragment(MainActivity.this), false);
                 });
             } else {
                 runOnUiThread(() -> {
                     Snackbar.make(getCurrentFocus(), "Error fetching menu data", Snackbar.LENGTH_SHORT).show();
+                    System.out.println("Error occurred: ");
                     throwable.printStackTrace();
                 });
             }
         }, ContextCompat.getMainExecutor(this));
+
+        System.out.println("After ");
     }
 
     @Override
     public void onMenuFieldSelected(String cafe, String date, IMenuSelectView view) {
-        //currentMenu = Data.findMenus(cafe, date);
         updateVisibleMenu(view);
         view.refreshMenu();
     }

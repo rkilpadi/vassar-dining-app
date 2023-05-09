@@ -119,4 +119,3 @@ public class Menu {
         return new MealtimeMenu(cafeName, date, label, retItems);
     }
 }
-

@@ -50,6 +50,7 @@ public class RestrictionCheckAdapter extends RecyclerView.Adapter<RestrictionChe
             binding.restrictionCheck.setOnClickListener(v ->
                     user.switchStatus(restriction, user.getDietaryRestrictions())
             );
+            binding.restrictionName.setText(restriction.getName());
         }
     }
 }

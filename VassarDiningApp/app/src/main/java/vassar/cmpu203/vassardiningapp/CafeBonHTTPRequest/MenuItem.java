@@ -92,7 +92,12 @@ public class MenuItem {
     public MealtimeItem toMealtimeItem() {
         Set<DietaryRestriction> restrictions = new HashSet<>();
         for (String restrictionId : cor_icon.keySet()) {
-            restrictions.add(DietaryRestriction.getById(restrictionId));
+            try {
+                restrictions.add(DietaryRestriction.getById(restrictionId));
+            } catch (Exception e) {
+                System.out.println("Unknown dietary restriction: " + cor_icon.get(restrictionId));
+                e.printStackTrace();
+            }
         }
         return new MealtimeItem(label, description, station, restrictions);
     }

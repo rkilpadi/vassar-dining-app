@@ -81,8 +81,6 @@ public class ExpandableMealtimeAdapter extends RecyclerView.Adapter<ExpandableMe
         public ViewHolder(@NonNull MealtimeMenuBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-
-            this.binding.mealtimeTitle.setTypeface(null, Typeface.BOLD);
         }
     }
 }
