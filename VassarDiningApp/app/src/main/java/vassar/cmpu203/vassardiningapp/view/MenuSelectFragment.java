@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +60,8 @@ public class MenuSelectFragment extends Fragment implements IMenuSelectView, Men
 
         populateSpinner(view, binding.cafeSpinner, R.array.cafes);
         populateSpinner(view, binding.dateSpinner, R.array.dates);
+
+        refreshMenu();
     }
 
     private void populateSpinner(View view, Spinner spinner, int textArrayResId) {
@@ -69,11 +72,15 @@ public class MenuSelectFragment extends Fragment implements IMenuSelectView, Men
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                listener.onMenuFieldSelected(
-                        binding.cafeSpinner.getSelectedItem().toString(),
-                        binding.dateSpinner.getSelectedItem().toString(),
-                        MenuSelectFragment.this
-                );
+                try {
+                    listener.onMenuFieldSelected(
+                            binding.cafeSpinner.getSelectedItem().toString(),
+                            binding.dateSpinner.getSelectedItem().toString(),
+                            MenuSelectFragment.this
+                    );
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
             @Override

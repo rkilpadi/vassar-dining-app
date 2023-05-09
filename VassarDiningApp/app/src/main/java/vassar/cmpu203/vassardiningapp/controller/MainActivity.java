@@ -6,12 +6,19 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
+import vassar.cmpu203.vassardiningapp.CafeBonHTTPRequest.MenuParser;
+import vassar.cmpu203.vassardiningapp.CafeBonHTTPRequest.Menu;
 import vassar.cmpu203.vassardiningapp.R;
 import vassar.cmpu203.vassardiningapp.model.Data;
 import vassar.cmpu203.vassardiningapp.model.MealtimeItem;
@@ -33,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements
     private IMainView mainView;
     private final User user = new User();
     private ActionBarDrawerToggle drawerToggle;
-    private MenuSelectFragment menuSelectFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +53,35 @@ public class MainActivity extends AppCompatActivity implements
         drawerToggle = mainView.setupActionBar();
 
         Data.populateMenus();
-        currentMenu = Data.findMenus("deece", "today");
+        currentMenu = new ArrayList<>();
+        loadData();
+    }
 
-        mainView.displayFragment(new MenuSelectFragment(this), false);
+    private void loadData() {
+        CompletableFuture.supplyAsync(() -> {
+            try {
+                return MenuParser.MenuParserMethod("gordon", "2023-05-08");
+            } catch (Exception e) {
+                throw new RuntimeException("Error fetching menu data", e);
+            }
+        }).whenCompleteAsync((result, throwable) -> {
+            if (throwable == null) {
+                runOnUiThread(() -> {
+                    currentMenu = result.stream().map(Menu::toMealtimeMenu).collect(Collectors.toList());
+                    mainView.displayFragment(new MenuSelectFragment(this), false);
+                });
+            } else {
+                runOnUiThread(() -> {
+                    Snackbar.make(getCurrentFocus(), "Error fetching menu data", Snackbar.LENGTH_SHORT).show();
+                    throwable.printStackTrace();
+                });
+            }
+        }, ContextCompat.getMainExecutor(this));
     }
 
     @Override
     public void onMenuFieldSelected(String cafe, String date, IMenuSelectView view) {
-        currentMenu = Data.findMenus(cafe, date);
+        //currentMenu = Data.findMenus(cafe, date);
         updateVisibleMenu(view);
         view.refreshMenu();
     }

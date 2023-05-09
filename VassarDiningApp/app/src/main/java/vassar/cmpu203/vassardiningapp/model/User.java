@@ -67,7 +67,7 @@ public class User {
                     visibleItems.add(mealtimeItem);
                 }
             }
-            filteredMenus.add(new MealtimeMenu(mealtimeMenu.getCafe(), mealtimeMenu.getDate(), mealtimeMenu.getMealtime(), visibleItems));
+            filteredMenus.add(new MealtimeMenu(mealtimeMenu.getCafe(), mealtimeMenu.getDate(), mealtimeMenu.getLabel(), visibleItems));
         }
         return filteredMenus;
     }

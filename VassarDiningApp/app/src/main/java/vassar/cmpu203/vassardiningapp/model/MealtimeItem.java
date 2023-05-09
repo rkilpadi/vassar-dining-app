@@ -7,12 +7,14 @@ public class MealtimeItem {
 
     private final String name;
     private final String description;
+    private final String station;
     private final Set<DietaryRestriction> dietaryRestrictions;
 
-    public MealtimeItem(String name, String description, Set<DietaryRestriction> dietaryRestrictions) {
+    public MealtimeItem(String name, String description, String station, Set<DietaryRestriction> dietaryRestrictions) {
         this.name = name;
         this.description = description;
         this.dietaryRestrictions = dietaryRestrictions;
+        this.station = station;
     }
 
     public String getName() {
@@ -21,6 +23,10 @@ public class MealtimeItem {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getStation() {
+        return station;
     }
 
     public Set<DietaryRestriction> getDietaryRestrictions() {

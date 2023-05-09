@@ -1,7 +1,12 @@
-package CafeBonHTTPRequest.bonappetit;
+package vassar.cmpu203.vassardiningapp.CafeBonHTTPRequest;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import vassar.cmpu203.vassardiningapp.model.MealtimeItem;
+import vassar.cmpu203.vassardiningapp.model.MealtimeMenu;
 
 public class Menu {
     //Ex: Gordon
@@ -14,7 +19,7 @@ public class Menu {
     private List<Station> stations;
     private List<MenuItem> menuItems;
 
-    public Menu(String cafeName, String date, String label,  String startTime, String endTime, List<Station> stations) {
+    public Menu(String cafeName, String date, String label, String startTime, String endTime, List<Station> stations) {
         this.cafeName = cafeName;
         this.date = date;
         this.label = label;
@@ -38,7 +43,7 @@ public class Menu {
             List<MenuItem> stationMenuItems = new ArrayList<>();
             for (String itemId : stationRaw.getItems()) {
                 for (MenuItem menuItem : menuItems) {
-                    if (menuItem.getId().equals(itemId)) {
+                    if (menuItem.getId().equals(itemId) && menuItem.getTier() == 1) {
                         stationMenuItems.add(menuItem);
                         break;
                     }
@@ -48,7 +53,6 @@ public class Menu {
             this.stations.add(station);
         }
     }
-
 
     public String getStartTime() {
         return startTime;
@@ -103,6 +107,16 @@ public class Menu {
             sb.append("\n- ").append(menuItem.toString());
         }
         return sb.toString();
+    }
+
+    public MealtimeMenu toMealtimeMenu() {
+        List<MealtimeItem> retItems = new ArrayList<>();
+        for (Station station : stations) {
+            for (MenuItem item : station.getItems()) {
+                retItems.add(item.toMealtimeItem());
+            }
+        }
+        return new MealtimeMenu(cafeName, date, label, retItems);
     }
 }
 

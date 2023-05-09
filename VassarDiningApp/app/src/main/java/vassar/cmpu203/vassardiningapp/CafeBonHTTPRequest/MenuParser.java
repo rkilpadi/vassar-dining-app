@@ -1,8 +1,7 @@
-package CafeBonHTTPRequest.bonappetit;
+package vassar.cmpu203.vassardiningapp.CafeBonHTTPRequest;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -20,7 +19,7 @@ public class MenuParser {
 
     // Map<Sting, MenuItem>
     // return List<Menu> sorted by mealtime with the map
-    List<Menu> MenuParserMethod(String cafeName, String date) throws IOException {
+    public static List<Menu> MenuParserMethod(String cafeName, String date) throws IOException {
         //Scanner scanner = new Scanner(System.in);
 
         do {
@@ -42,7 +41,7 @@ public class MenuParser {
         //Splitting html string to isolate Bamco.menu_items
         assert urlBody != null;
         String[] before = urlBody.split("Bamco.menu_items = ");
-        String[] after = before[1].split("}}};");
+        String[] after = before[1].split("\\}\\}\\};");
         String menuItemsStr = after[0] + "}}}";
 
         //Finding mealtimes and menuItems contained within mealtimes
@@ -74,7 +73,7 @@ public class MenuParser {
             //ArrayList of menuItems
             menuItemArrayList.add(item);
             //Map of ID to menuItems
-            Map<String, MenuItem> idMenuItem = new HashMap<String, MenuItem>();
+            Map<String, MenuItem> idMenuItem = new HashMap<>();
             idMenuItem.put(item.getId(), item);
             //System.out.println(item);
             //System.out.println(idMenuItem);
@@ -122,7 +121,8 @@ public class MenuParser {
 
 
         }
-        return resultList;}
+        return resultList;
+    }
 
 
 
@@ -185,11 +185,4 @@ public class MenuParser {
         }
         return bamcoMealTimeStringList;
     }
-
-    private String removeQuotesAndUnescape(String uncleanJson) {
-        String noQuotes = uncleanJson.replaceAll("^\"|\"$", "");
-
-        return StringEscapeUtils.unescapeJava(noQuotes);
-    }
-
 }

@@ -1,4 +1,4 @@
-package CafeBonHTTPRequest.bonappetit;
+package vassar.cmpu203.vassardiningapp.CafeBonHTTPRequest;
 
 import java.util.List;
 

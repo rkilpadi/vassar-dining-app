@@ -1,6 +1,11 @@
-package CafeBonHTTPRequest.bonappetit;
+package vassar.cmpu203.vassardiningapp.CafeBonHTTPRequest;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+
+import vassar.cmpu203.vassardiningapp.model.DietaryRestriction;
+import vassar.cmpu203.vassardiningapp.model.MealtimeItem;
 
 public class MenuItem {
     private String id;
@@ -9,8 +14,7 @@ public class MenuItem {
     private Map<String, String> cor_icon;
     private int tier;
     private String station;
-
-
+    private Map<String, MenuItem> idMap;
 
     // Getters and setters
     public String getId() {
@@ -58,8 +62,7 @@ public class MenuItem {
     public String getStation() {
         String[] before = station.split("<strong>@");
         String[] after = before[1].split("</strong>");
-        String parsedStation= after[0] ;
-        return parsedStation;
+        return after[0];
     }
 
 
@@ -67,14 +70,16 @@ public class MenuItem {
         this.station = station;
     }
 
+    //public Map<String, MenuItem> IdMapper{}
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Menu Item: ").append(label).append("\n");
         //sb.append("ID: ").append(id).append("\n");
         sb.append("Description: ").append(description).append("\n");
-        //sb.append("Tier: ").append(tier).append("\n");
-        //sb.append("vassar.cmpu203.vassardiningapp.model.bonappetit.Station: ").append(this.getStation()).append("\n");
+        sb.append("Tier: ").append(tier).append("\n");
+        sb.append("Station: ").append(this.getStation()).append("\n");
         sb.append("Dietary Restrictions: ").append("\n");
 
         for (Map.Entry<String, String> entry : cor_icon.entrySet()) {
@@ -82,5 +87,13 @@ public class MenuItem {
         }
 
         return sb.toString();
+    }
+
+    public MealtimeItem toMealtimeItem() {
+        Set<DietaryRestriction> restrictions = new HashSet<>();
+        for (String restrictionId : cor_icon.keySet()) {
+            restrictions.add(DietaryRestriction.getById(restrictionId));
+        }
+        return new MealtimeItem(label, description, station, restrictions);
     }
 }

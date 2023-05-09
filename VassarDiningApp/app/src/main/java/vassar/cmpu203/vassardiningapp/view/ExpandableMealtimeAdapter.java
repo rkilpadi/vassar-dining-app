@@ -47,7 +47,7 @@ public class ExpandableMealtimeAdapter extends RecyclerView.Adapter<ExpandableMe
         TextView mealtimeTitle = holder.binding.mealtimeTitle;
         RecyclerView mealtimeRecycler = holder.binding.itemContainer;
 
-        mealtimeTitle.setText(menu.getMealtime());
+        mealtimeTitle.setText(menu.getLabel());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(RecyclerView.VERTICAL);

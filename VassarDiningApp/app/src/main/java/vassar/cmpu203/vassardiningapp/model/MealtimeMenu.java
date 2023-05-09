@@ -7,13 +7,13 @@ public class MealtimeMenu {
 
     private final String cafe;
     private final String date;
-    private final String mealtime;
+    private final String label;
     private final List<MealtimeItem> menuItems;
 
-    public MealtimeMenu(String cafe, String date, String mealtime, List<MealtimeItem> menuItems) {
+    public MealtimeMenu(String cafe, String date, String label, List<MealtimeItem> menuItems) {
         this.cafe = cafe;
         this.date = date;
-        this.mealtime = mealtime;
+        this.label = label;
         this.menuItems = menuItems;
     }
 
@@ -25,8 +25,8 @@ public class MealtimeMenu {
         return date;
     }
 
-    public String getMealtime() {
-        return mealtime;
+    public String getLabel() {
+        return label;
     }
 
     public List<MealtimeItem> getMenuItems() {
