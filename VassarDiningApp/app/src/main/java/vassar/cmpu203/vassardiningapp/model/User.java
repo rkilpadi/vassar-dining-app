@@ -1,6 +1,7 @@
 package vassar.cmpu203.vassardiningapp.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ public class User implements Serializable {
     private Set<DietaryRestriction> dietaryRestrictions = new HashSet<>();
     private boolean favoriteFiltered;
     private boolean restrictionFiltered;
+    private LocalDate date;
 
     public Map<String, MealtimeItem> getFavorites() {
         return favorites;
@@ -65,6 +67,14 @@ public class User implements Serializable {
 
     public void toggleRestrictionFilter() {
         restrictionFiltered = !restrictionFiltered;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public boolean matchRestriction(Set<DietaryRestriction> restrictionsToMatch) {

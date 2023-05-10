@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +35,8 @@ public class MenuSelectFragment extends Fragment implements IMenuSelectView, Men
     private final IMenuSelectView.Listener listener;
     private FragmentMenuSelectBinding binding;
     private ExpandableMealtimeAdapter itemsAdapter;
+    private String cafe;
+    private LocalDate date = LocalDate.now();
 
     public MenuSelectFragment(IMenuSelectView.Listener listener) {
         this.listener = listener;
@@ -51,6 +53,7 @@ public class MenuSelectFragment extends Fragment implements IMenuSelectView, Men
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getActivity().setTitle("Menu");
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -59,9 +62,25 @@ public class MenuSelectFragment extends Fragment implements IMenuSelectView, Men
         binding.mealtimeRecycler.setAdapter(itemsAdapter);
 
         populateSpinner(view, binding.cafeSpinner, R.array.cafes);
-        populateSpinner(view, binding.dateSpinner, R.array.dates);
 
+        binding.textDate.setText(date.toString());
         refreshMenu();
+    }
+
+    private String translateCafe(String cafe) {
+        String translatedCafe = cafe;
+        switch (cafe) {
+            case "Deece":
+                translatedCafe = "gordon";
+                break;
+            case "Retreat":
+                translatedCafe = "the-retreat";
+                break;
+            case "Street Eats":
+                translatedCafe = "food-truck";
+                break;
+        }
+        return translatedCafe;
     }
 
     private void populateSpinner(View view, Spinner spinner, int textArrayResId) {
@@ -72,15 +91,8 @@ public class MenuSelectFragment extends Fragment implements IMenuSelectView, Men
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                try {
-                    listener.onMenuFieldSelected(
-                            binding.cafeSpinner.getSelectedItem().toString(),
-                            binding.dateSpinner.getSelectedItem().toString(),
-                            MenuSelectFragment.this
-                    );
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                cafe = translateCafe(binding.cafeSpinner.getSelectedItem().toString());
+                listener.onMenuFieldSelected(cafe, MenuSelectFragment.this);
             }
 
             @Override
@@ -118,7 +130,15 @@ public class MenuSelectFragment extends Fragment implements IMenuSelectView, Men
     @Override
     public boolean onMenuItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.favorite_filter_button) {
+        if (id == R.id.previous_day_button) {
+            date = date.minusDays(1);
+            binding.textDate.setText(date.toString());
+            listener.loadData(cafe, date, this);
+        } else if (id == R.id.next_day_button) {
+            date = date.plusDays(1);
+            binding.textDate.setText(date.toString());
+            listener.loadData(cafe, date, this);
+        } else if (id == R.id.favorite_filter_button) {
             listener.getUser().toggleFavoriteFilter();
             item.setIcon(listener.getUser().isFavoriteFiltered() ? R.drawable.ic_white_filled_heart : R.drawable.ic_white_empty_heart);
             listener.updateVisibleMenu(this);

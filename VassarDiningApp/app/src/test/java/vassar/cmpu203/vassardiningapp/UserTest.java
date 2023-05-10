@@ -24,17 +24,17 @@ public class UserTest {
         user = new User();
         restrictions = new HashSet<>(List.of(DietaryRestriction.VEGETARIAN, DietaryRestriction.KOSHER));
         user.setDietaryRestrictions(restrictions);
-        testItem = new MealtimeItem("test", "test desc", "", restrictions);
+        testItem = new MealtimeItem("test", "123","test desc", "", restrictions);
     }
 
     @Test
     public void testSwitchStatus() {
-        user.switchStatus(testItem, user.getFavorites());
-        assertTrue(user.getFavorites().contains(testItem));
-        user.switchStatus(testItem, user.getFavorites());
-        assertFalse(user.getFavorites().contains(testItem));
+        user.switchFavoriteStatus(testItem);
+        assertTrue(user.getFavorites().containsValue(testItem));
+        user.switchFavoriteStatus(testItem);
+        assertFalse(user.getFavorites().containsValue(testItem));
         assertTrue(user.getDietaryRestrictions().contains(DietaryRestriction.VEGETARIAN));
-        user.switchStatus(DietaryRestriction.VEGETARIAN, user.getDietaryRestrictions());
+        user.switchRestrictionStatus(DietaryRestriction.VEGETARIAN);
         assertFalse(user.getDietaryRestrictions().contains(DietaryRestriction.VEGETARIAN));
     }
 
@@ -52,7 +52,7 @@ public class UserTest {
         menus.add(new MealtimeMenu("cafe", "date", "mealtime", new ArrayList<>(List.of(testItem))));
         user.toggleFavoriteFilter();
         assertFalse(user.filterMenus(menus).get(0).getMenuItems().contains(testItem));
-        user.switchStatus(testItem, user.getFavorites());
+        user.switchFavoriteStatus(testItem);
         assertTrue(user.filterMenus(menus).get(0).getMenuItems().contains(testItem));
     }
 }

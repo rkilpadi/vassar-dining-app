@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements
     private User user;
     private ActionBarDrawerToggle drawerToggle;
     private LocalStorageFacade localStorageFacade;
+    private MenuSelectFragment menuSelectFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,14 +61,16 @@ public class MainActivity extends AppCompatActivity implements
         drawerToggle = mainView.setupActionBar();
 
         currentMenu = new ArrayList<>();
-        loadData();
+        menuSelectFragment = new MenuSelectFragment(this);
+        loadData("gordon", LocalDate.now(), menuSelectFragment);
+        mainView.displayFragment(menuSelectFragment, false);
     }
 
-    private void loadData() {
+    public void loadData(String cafe, LocalDate date, IMenuSelectView view) {
         CompletableFuture.supplyAsync(() -> {
             try {
-                String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                return MenuParser.MenuParserMethod("gordon", today);
+                String strDate = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                return MenuParser.MenuParserMethod(cafe, strDate);
             } catch (Exception e) {
                 throw new RuntimeException("Error fetching menu data", e);
             }
@@ -76,21 +79,20 @@ public class MainActivity extends AppCompatActivity implements
                 runOnUiThread(() -> {
                     try {
                         currentMenu = result.stream().map(Menu::toMealtimeMenu).collect(Collectors.toList());
+                        menuSelectFragment.updateMenuItems(currentMenu);
+                        updateVisibleMenu(menuSelectFragment);
+                        menuSelectFragment.refreshMenu();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    mainView.displayFragment(new MenuSelectFragment(MainActivity.this), false);
                 });
             } else {
                 runOnUiThread(() -> {
                     Snackbar.make(getCurrentFocus(), "Error fetching menu data", Snackbar.LENGTH_SHORT).show();
-                    System.out.println("Error occurred: ");
                     throwable.printStackTrace();
                 });
             }
         }, ContextCompat.getMainExecutor(this));
-
-        System.out.println("After ");
     }
 
     @Override
@@ -100,7 +102,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onMenuFieldSelected(String cafe, String date, IMenuSelectView view) {
+    public void onMenuFieldSelected(String cafe, IMenuSelectView view) {
+        loadData(cafe, user.getDate(), menuSelectFragment);
+        view.updateMenuItems(currentMenu);
         updateVisibleMenu(view);
         view.refreshMenu();
     }

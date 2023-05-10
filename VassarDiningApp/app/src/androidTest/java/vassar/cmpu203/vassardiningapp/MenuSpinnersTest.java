@@ -22,9 +22,7 @@ public class MenuSpinnersTest {
     @Test
     public void testMenuSpinners() {
         ViewInteraction cafeSpinnerVI = Espresso.onView(ViewMatchers.withId(R.id.cafe_spinner));
-        ViewInteraction dateSpinnerVI = Espresso.onView(ViewMatchers.withId(R.id.date_spinner));
 
         cafeSpinnerVI.check(ViewAssertions.matches(ViewMatchers.withSpinnerText(R.string.default_cafe)));
-        dateSpinnerVI.check(ViewAssertions.matches(ViewMatchers.withSpinnerText(R.string.default_date)));
     }
 }
