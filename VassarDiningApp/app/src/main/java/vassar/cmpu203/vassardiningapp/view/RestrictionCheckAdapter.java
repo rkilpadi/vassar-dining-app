@@ -48,7 +48,7 @@ public class RestrictionCheckAdapter extends RecyclerView.Adapter<RestrictionChe
             binding.restrictionIcon.setImageResource(restriction.getIconId());
             binding.restrictionCheck.setChecked(user.getDietaryRestrictions().contains(restriction));
             binding.restrictionCheck.setOnClickListener(v ->
-                    user.switchStatus(restriction, user.getDietaryRestrictions())
+                    user.switchRestrictionStatus(restriction)
             );
             binding.restrictionName.setText(restriction.getName());
         }

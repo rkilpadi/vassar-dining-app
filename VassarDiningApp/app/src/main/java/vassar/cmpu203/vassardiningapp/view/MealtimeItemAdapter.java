@@ -56,7 +56,7 @@ public class MealtimeItemAdapter extends RecyclerView.Adapter<MealtimeItemAdapte
         itemRestrictions.setAdapter(new RestrictionIconAdapter(item.getDietaryRestrictions()));
 
         ToggleButton heart = binding.heartToggle;
-        boolean isFavorited = listener.getUser().getFavorites().contains(item);
+        boolean isFavorited = listener.getUser().getFavorites().containsKey(item.getId());
         heart.setChecked(isFavorited);
         heart.setBackgroundDrawable(ContextCompat.getDrawable(context,
                 isFavorited ? R.drawable.ic_red_filled_heart : R.drawable.ic_red_empty_heart

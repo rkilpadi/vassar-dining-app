@@ -99,6 +99,6 @@ public class MenuItem {
                 e.printStackTrace();
             }
         }
-        return new MealtimeItem(label, description, station, restrictions);
+        return new MealtimeItem(label, id, description, station, restrictions);
     }
 }

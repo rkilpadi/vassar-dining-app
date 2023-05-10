@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 import vassar.cmpu203.vassardiningapp.CafeBonHTTPRequest.Menu;
 import vassar.cmpu203.vassardiningapp.CafeBonHTTPRequest.MenuParser;
 import vassar.cmpu203.vassardiningapp.R;
-import vassar.cmpu203.vassardiningapp.model.Data;
 import vassar.cmpu203.vassardiningapp.model.MealtimeItem;
 import vassar.cmpu203.vassardiningapp.model.MealtimeMenu;
 import vassar.cmpu203.vassardiningapp.model.User;
@@ -40,13 +39,19 @@ public class MainActivity extends AppCompatActivity implements
 
     private List<MealtimeMenu> currentMenu;
     private IMainView mainView;
-    private final User user = new User();
+    private User user;
     private ActionBarDrawerToggle drawerToggle;
+    private LocalStorageFacade localStorageFacade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getSupportFragmentManager().setFragmentFactory(new FragFactory(this));
         super.onCreate(savedInstanceState);
+
+        localStorageFacade = new LocalStorageFacade(getFilesDir());
+        user = localStorageFacade.retrieveLedger();
+        if (user == null) user = new User();
+
         mainView = new MainView(this);
         setContentView(mainView.getRootView());
 
@@ -54,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements
         getSupportActionBar().setHomeButtonEnabled(true);
         drawerToggle = mainView.setupActionBar();
 
-        Data.populateMenus();
         currentMenu = new ArrayList<>();
         loadData();
     }
@@ -90,6 +94,12 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        localStorageFacade.saveUser(user);
+    }
+
+    @Override
     public void onMenuFieldSelected(String cafe, String date, IMenuSelectView view) {
         updateVisibleMenu(view);
         view.refreshMenu();
@@ -97,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onFavoriteClicked(MealtimeItem item, IFavoriteView favoriteView) {
-        user.switchStatus(item, user.getFavorites());
+        user.switchFavoriteStatus(item);
         favoriteView.updateFavoriteDisplay();
     }
 

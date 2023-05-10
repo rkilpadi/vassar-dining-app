@@ -40,7 +40,7 @@ public class ManageFavoritesFragment extends Fragment implements IFavoriteView {
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         binding.favoritesRecycler.setLayoutManager(layoutManager);
 
-        ArrayList<MealtimeItem> favorites = new ArrayList<>(listener.getUser().getFavorites());
+        ArrayList<MealtimeItem> favorites = new ArrayList<>(listener.getUser().getFavorites().values());
         binding.favoritesRecycler.setAdapter(new MealtimeItemAdapter(favorites, getContext(), listener, this));
     }
 }

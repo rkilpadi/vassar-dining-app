@@ -1,21 +1,24 @@
 package vassar.cmpu203.vassardiningapp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
  * Represents a user, containing all data that is variable between different users, such as favorite items.
  */
-public class User {
+public class User implements Serializable {
 
-    private final Set<MealtimeItem> favorites = new HashSet<>();
+    private final Map<String, MealtimeItem> favorites = new HashMap<>();
     private Set<DietaryRestriction> dietaryRestrictions = new HashSet<>();
     private boolean favoriteFiltered;
     private boolean restrictionFiltered;
 
-    public Set<MealtimeItem> getFavorites() {
+    public Map<String, MealtimeItem> getFavorites() {
         return favorites;
     }
 
@@ -24,16 +27,24 @@ public class User {
      *
      * @param item the item to either add or remove from the set.
      */
-    public <T> void switchStatus(T item, Set<T> set) {
-        if (set.contains(item)) {
-            set.remove(item);
+    public void switchFavoriteStatus(MealtimeItem item) {
+        if (favorites.containsKey(item.getId())) {
+            favorites.remove(item.getId());
         } else {
-            set.add(item);
+            favorites.put(item.getId(), item);
         }
     }
 
     public void setDietaryRestrictions(Set<DietaryRestriction> dietaryRestrictions) {
         this.dietaryRestrictions = dietaryRestrictions;
+    }
+
+    public void switchRestrictionStatus(DietaryRestriction restriction) {
+        if (dietaryRestrictions.contains(restriction)) {
+            dietaryRestrictions.remove(restriction);
+        } else {
+            dietaryRestrictions.add(restriction);
+        }
     }
 
     public Set<DietaryRestriction> getDietaryRestrictions() {
@@ -68,18 +79,18 @@ public class User {
         return effectiveRestrictions.containsAll(dietaryRestrictions);
     }
 
-    public List<MealtimeMenu> filterMenus(List<MealtimeMenu> items) {
+    public List<MealtimeMenu> filterMenus(List<MealtimeMenu> menus) {
         List<MealtimeMenu> filteredMenus = new ArrayList<>();
-        for (MealtimeMenu mealtimeMenu : items) {
+        for (MealtimeMenu menu : menus) {
             List<MealtimeItem> visibleItems = new ArrayList<>();
-            for (MealtimeItem mealtimeItem : mealtimeMenu.getMenuItems()) {
-                boolean matchFavorite = !isFavoriteFiltered() || getFavorites().contains(mealtimeItem);
-                boolean matchRestriction = !isRestrictionFiltered() || matchRestriction(mealtimeItem.getDietaryRestrictions());
+            for (MealtimeItem item : menu.getMenuItems()) {
+                boolean matchFavorite = !isFavoriteFiltered() || favorites.containsKey(item.getId());
+                boolean matchRestriction = !isRestrictionFiltered() || matchRestriction(item.getDietaryRestrictions());
                 if (matchFavorite && matchRestriction) {
-                    visibleItems.add(mealtimeItem);
+                    visibleItems.add(item);
                 }
             }
-            filteredMenus.add(new MealtimeMenu(mealtimeMenu.getCafe(), mealtimeMenu.getDate(), mealtimeMenu.getLabel(), visibleItems));
+            filteredMenus.add(new MealtimeMenu(menu.getCafe(), menu.getDate(), menu.getLabel(), visibleItems));
         }
         return filteredMenus;
     }
