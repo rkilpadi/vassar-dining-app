@@ -16,8 +16,15 @@ public interface IMainView {
      */
     View getRootView();
 
+    /**
+     * Sets up an ActionBar with a drawer in an activity
+     * @return An ActionBarDrawerToggle for the drawer
+     */
     ActionBarDrawerToggle setupActionBar();
 
+    /**
+     * Closes the drawer in the activity
+     */
     void closeDrawer();
 
     /**

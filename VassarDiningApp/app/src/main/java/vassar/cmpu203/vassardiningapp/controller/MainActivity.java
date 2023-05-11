@@ -37,12 +37,11 @@ import vassar.cmpu203.vassardiningapp.view.MenuSelectFragment;
 public class MainActivity extends AppCompatActivity implements
         IMenuSelectView.Listener, NavigationView.OnNavigationItemSelectedListener {
 
-    private List<MealtimeMenu> currentMenu;
+    private List<MealtimeMenu> currentMenu; // All available items, even those that aren't visible
     private IMainView mainView;
     private User user;
     private ActionBarDrawerToggle drawerToggle;
     private LocalStorageFacade localStorageFacade;
-    private MenuSelectFragment menuSelectFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +60,17 @@ public class MainActivity extends AppCompatActivity implements
         drawerToggle = mainView.setupActionBar();
 
         currentMenu = new ArrayList<>();
-        menuSelectFragment = new MenuSelectFragment(this);
+        MenuSelectFragment menuSelectFragment = new MenuSelectFragment(this);
         loadData("gordon", LocalDate.now(), menuSelectFragment);
         mainView.displayFragment(menuSelectFragment, false);
     }
 
+    /**
+     * Asynchronously loads menu data for a given cafe and date.
+     * @param cafe the name of the cafe for the HTTP request
+     * @param date the date to be converted into String format for the request
+     * @param view the view where the data will be displayed
+     */
     public void loadData(String cafe, LocalDate date, IMenuSelectView view) {
         CompletableFuture.supplyAsync(() -> {
             try {
@@ -79,9 +84,9 @@ public class MainActivity extends AppCompatActivity implements
                 runOnUiThread(() -> {
                     try {
                         currentMenu = result.stream().map(Menu::toMealtimeMenu).collect(Collectors.toList());
-                        menuSelectFragment.updateMenuItems(currentMenu);
-                        updateVisibleMenu(menuSelectFragment);
-                        menuSelectFragment.refreshMenu();
+                        updateVisibleMenu(view);
+                        view.refreshMenu();
+                        System.out.println(currentMenu.get(0).getCafe());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -101,14 +106,11 @@ public class MainActivity extends AppCompatActivity implements
         localStorageFacade.saveUser(user);
     }
 
-    @Override
-    public void onMenuFieldSelected(String cafe, IMenuSelectView view) {
-        loadData(cafe, user.getDate(), menuSelectFragment);
-        view.updateMenuItems(currentMenu);
-        updateVisibleMenu(view);
-        view.refreshMenu();
-    }
-
+    /**
+     * Handles the event when a favorite item is clicked in the menu.
+     * @param item the MealtimeItem instance representing the clicked item
+     * @param favoriteView the IFavoriteView instance where the favorite items are displayed
+     */
     @Override
     public void onFavoriteClicked(MealtimeItem item, IFavoriteView favoriteView) {
         user.switchFavoriteStatus(item);

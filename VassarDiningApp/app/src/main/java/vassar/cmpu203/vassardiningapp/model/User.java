@@ -25,9 +25,8 @@ public class User implements Serializable {
     }
 
     /**
-     * Either favorites or unfavorites an item by adding or removing it from the favorites set.
-     *
-     * @param item the item to either add or remove from the set.
+     * Either favorites or unfavorites an item by adding or removing it from the favorites map
+     * @param item the item to either add or remove from the map
      */
     public void switchFavoriteStatus(MealtimeItem item) {
         if (favorites.containsKey(item.getId())) {
@@ -41,6 +40,10 @@ public class User implements Serializable {
         this.dietaryRestrictions = dietaryRestrictions;
     }
 
+    /**
+     * Adds or removes a restriction from the restrictions set
+     * @param restriction the restriction to either add or remove from the map
+     */
     public void switchRestrictionStatus(DietaryRestriction restriction) {
         if (dietaryRestrictions.contains(restriction)) {
             dietaryRestrictions.remove(restriction);
@@ -77,6 +80,12 @@ public class User implements Serializable {
         this.date = date;
     }
 
+    /**
+     * Checks whether an item's restrictions comply with this user's restrictions,
+     * taking into account restrictions that are implied
+     * @param restrictionsToMatch the item's restrictions to match
+     * @return whether or not the item matches this user's restrictions
+     */
     public boolean matchRestriction(Set<DietaryRestriction> restrictionsToMatch) {
         Set<DietaryRestriction> effectiveRestrictions = new HashSet<>(restrictionsToMatch);
         if (effectiveRestrictions.contains(DietaryRestriction.VEGAN)) {
@@ -89,6 +98,11 @@ public class User implements Serializable {
         return effectiveRestrictions.containsAll(dietaryRestrictions);
     }
 
+    /**
+     * Filter menus by items that are visible based on this user's preferences
+     * @param menus the menus consisting of all items that are available
+     * @return menus containing only items that are visible
+     */
     public List<MealtimeMenu> filterMenus(List<MealtimeMenu> menus) {
         List<MealtimeMenu> filteredMenus = new ArrayList<>();
         for (MealtimeMenu menu : menus) {

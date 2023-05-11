@@ -23,8 +23,9 @@ public enum DietaryRestriction {
 
     /**
      * Private enum constructor
-     *
+     * @param restrictionId the ID of a restriction determined by the Vassar Dining site
      * @param iconId the ID of the image to be displayed alongside the item
+     * @param name the label for a restriction
      */
     DietaryRestriction(String restrictionId, int iconId, String name) {
         this.restrictionId = restrictionId;
@@ -40,7 +41,12 @@ public enum DietaryRestriction {
         return name;
     }
 
-    public static DietaryRestriction getById(String id) {
+    /**
+     * return the DietaryRestriction with a given ID, throw an error if it doesn't exist
+     * @param id the ID to match with a restriction
+     * @return the DietaryRestriction with the given ID
+     */
+    public static DietaryRestriction getById(String id) throws RuntimeException {
         for (DietaryRestriction restriction : values()) {
             if (restriction.restrictionId.equals(id)) return restriction;
         }

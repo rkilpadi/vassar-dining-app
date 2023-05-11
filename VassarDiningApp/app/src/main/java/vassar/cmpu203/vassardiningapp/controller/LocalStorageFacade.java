@@ -24,6 +24,10 @@ public class LocalStorageFacade {
         this.directory = directory;
     }
 
+    /**
+     * Issues a user save operation.
+     * @param user the user to be saved.
+     */
     public void saveUser(@NonNull User user) {
         File outFile = new File(directory, FILENAME);
 
@@ -42,6 +46,10 @@ public class LocalStorageFacade {
         }
     }
 
+    /**
+     * Issues a user retrieval operation.
+     * @return the retrieved user, null if none available.
+     */
     @Nullable
     public User retrieveLedger() {
         User user = null; // null to begin with for negative outcome

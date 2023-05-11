@@ -3,7 +3,9 @@ package vassar.cmpu203.vassardiningapp.model;
 import java.io.Serializable;
 import java.util.List;
 
-/** Represents the set of MenuItems at a given cafe at a given mealtime. */
+/**
+ *  Represents the set of MenuItems at a given cafe at a given mealtime.
+ */
 public class MealtimeMenu implements Serializable {
 
     private final String cafe;
