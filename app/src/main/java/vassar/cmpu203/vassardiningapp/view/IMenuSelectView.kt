@@ -1,25 +1,21 @@
-package vassar.cmpu203.vassardiningapp.view;
+package vassar.cmpu203.vassardiningapp.view
 
-import java.time.LocalDate;
-import java.util.List;
-
-import vassar.cmpu203.vassardiningapp.model.MealtimeMenu;
+import vassar.cmpu203.vassardiningapp.model.MealtimeMenu
+import java.time.LocalDate
 
 /**
  * Interface that defines methods for a view that displays menus and allows a user to favorite items
  */
-public interface IMenuSelectView extends IFavoriteView {
-
+interface IMenuSelectView : IFavoriteView {
     /**
      * Interface to notify classes of events happening to the view
      */
-    interface Listener extends IFavoriteView.Listener {
-
+    interface Listener : IFavoriteView.Listener {
         /**
          * Called when the menu to be displayed has changed
          * @param view the view where the event originated
          */
-        void updateVisibleMenu(IMenuSelectView view);
+        fun updateVisibleMenu(view: IMenuSelectView)
 
         /**
          * Called when the user requests to view a different menu
@@ -27,25 +23,24 @@ public interface IMenuSelectView extends IFavoriteView {
          * @param date the date for the HTTP request
          * @param view the view where the event originated
          */
-        void loadData(String cafe, LocalDate date, IMenuSelectView view);
+        fun loadData(cafe: String, date: LocalDate, view: IMenuSelectView)
     }
 
     /**
      * Has the view display a new menu
      * @param menu the menu to be displayed
      */
-    void updateMenuItems(List<MealtimeMenu> menu);
+    fun updateMenuItems(menu: List<MealtimeMenu>)
 
     /**
      * Has the view refresh the displayed menu items
      */
-    void refreshMenu();
+    fun refreshMenu()
 
     /**
      * Has the view refresh the menu items displayed as favorites
      */
-    @Override
-    default void updateFavoriteDisplay() {
-        refreshMenu();
+    override fun updateFavoriteDisplay() {
+        refreshMenu()
     }
 }
