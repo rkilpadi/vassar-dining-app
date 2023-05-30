@@ -21,9 +21,9 @@ class UserTest internal constructor() {
     @Test
     fun testSwitchStatus() {
         user.switchFavoriteStatus(testItem)
-        Assertions.assertTrue(user.favorites.containsValue(testItem))
+        Assertions.assertTrue(user.favorites.contains(testItem))
         user.switchFavoriteStatus(testItem)
-        Assertions.assertFalse(user.favorites.containsValue(testItem))
+        Assertions.assertFalse(user.favorites.contains(testItem))
         Assertions.assertTrue(user.dietaryRestrictions.contains(DietaryRestriction.VEGETARIAN))
         user.switchRestrictionStatus(DietaryRestriction.VEGETARIAN)
         Assertions.assertFalse(user.dietaryRestrictions.contains(DietaryRestriction.VEGETARIAN))

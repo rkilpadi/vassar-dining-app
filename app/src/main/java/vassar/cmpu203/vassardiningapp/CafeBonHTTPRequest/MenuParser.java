@@ -22,15 +22,11 @@ public class MenuParser {
     public static List<Menu> MenuParserMethod(String cafeName, String date) throws IOException {
         //Scanner scanner = new Scanner(System.in);
 
-        do {
             System.out.println("Please enter the name of the cafe (food-truck, the-retreat, or gordon): ");
             //cafeName = scanner.nextLine();
-        } while (!isValidCafe(cafeName));
 
-        do {
             System.out.println("Please enter the date in yyyy-mm-dd format: ");
             //date = scanner.nextLine();
-        } while (!isValidDate(date));
         String url = "https://vassar.cafebonappetit.com/cafe/" + cafeName + "/" + date + "/";
 
         System.out.println("Sending GET request to " + url);
