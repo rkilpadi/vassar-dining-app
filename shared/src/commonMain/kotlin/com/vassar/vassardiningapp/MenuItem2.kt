@@ -13,6 +13,7 @@ data class MenuItem2 (
     @Serializable(with = NullableMapSerializer::class)
     val cor_icon: Map<String, String>? = null,
     val tier: Int = 0,
+    val station: String? = null
 ) {
 
     //public Map<String, MenuItem> IdMapper{}

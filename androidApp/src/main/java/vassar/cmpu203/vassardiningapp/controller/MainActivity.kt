@@ -9,7 +9,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
-import com.vassar.vassardiningapp.MenuParser2
 import kotlinx.coroutines.*
 import vassar.cmpu203.vassardiningapp.R
 //import vassar.cmpu203.vassardiningapp.model.MealtimeItem
