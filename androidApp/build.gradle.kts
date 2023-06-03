@@ -41,7 +41,9 @@ android {
 
 dependencies {
     implementation(project(":shared"))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2")
     implementation("com.google.android.material:material:1.9.0")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("androidx.compose.ui:ui:1.4.3")

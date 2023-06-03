@@ -1,16 +1,19 @@
 package vassar.cmpu203.vassardiningapp.controller
 
+//import vassar.cmpu203.vassardiningapp.CafeBonHTTPRequest.Menu
+//import vassar.cmpu203.vassardiningapp.CafeBonHTTPRequest.MenuParser
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.vassar.vassardiningapp.MenuParser2
 import kotlinx.coroutines.*
-import vassar.cmpu203.vassardiningapp.CafeBonHTTPRequest.Menu
-import vassar.cmpu203.vassardiningapp.CafeBonHTTPRequest.MenuParser
 import vassar.cmpu203.vassardiningapp.R
-import vassar.cmpu203.vassardiningapp.model.MealtimeItem
-import vassar.cmpu203.vassardiningapp.model.MealtimeMenu
+//import vassar.cmpu203.vassardiningapp.model.MealtimeItem
+//import vassar.cmpu203.vassardiningapp.model.MealtimeMenu
 import vassar.cmpu203.vassardiningapp.model.User
 import vassar.cmpu203.vassardiningapp.view.*
 import java.time.LocalDate
@@ -24,6 +27,7 @@ class MainActivity : AppCompatActivity(), IMenuSelectView.Listener, NavigationVi
     private lateinit var localStorageFacade: LocalStorageFacade
     override lateinit var user: User
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         supportFragmentManager.fragmentFactory = FragFactory(this)
         super.onCreate(savedInstanceState)
@@ -44,13 +48,15 @@ class MainActivity : AppCompatActivity(), IMenuSelectView.Listener, NavigationVi
         mainView.displayFragment(menuSelectFragment, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun loadData(cafe: String, date: LocalDate, view: IMenuSelectView) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val strDate = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                val newMenu = MenuParser2("https://vassar.cafebonappetit.com/cafe/$cafe/$date/").getMenu()
                 val result = MenuParser.MenuParserMethod(cafe, strDate)
                 withContext(Dispatchers.Main) {
-                    currentMenu = result.map(Menu::toMealtimeMenu)
+                    currentMenu = result.map(toMealtimeMenu())
                     updateVisibleMenu(view)
                     view.refreshMenu()
                 }
