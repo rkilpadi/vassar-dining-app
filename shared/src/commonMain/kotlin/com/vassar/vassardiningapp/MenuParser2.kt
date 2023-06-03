@@ -17,21 +17,26 @@ class MenuParser2 (private val url: String) {
         // Perform asynchronous initialization here
         val response = client.get(url)
         val html = response.bodyAsText()
+
         val menuItemsRegex = "Bamco\\.menu_items = .*?(?=\\r?\\n)".toRegex()
         val menuItemsLine = menuItemsRegex.find(html)?.value
         val menuItemsJson = menuItemsLine?.substringAfter("Bamco.menu_items = ")?.dropLast(1)
 
         val dayPartsRegex = "Bamco\\.dayparts\\['\\d+'\\] = .*?(?=\\r?\\n)".toRegex()
-        val dayPartsLine = dayPartsRegex.find(html)?.value
-        val dayPartsJson = dayPartsLine?.substringAfter(" = ")?.dropLast(1)
-        Log.d("tag", dayPartsLine.toString())
+        val dayPartsLines = dayPartsRegex.findAll(html).map { it.value }.toList()
+        val dayPartsJsonList = dayPartsLines.map { line ->
+            val dayPartsJson = line.substringAfter(" = ").dropLast(1)
+            dayPartsJson
+        }
 
         menuItemsJson?.let {
             menuItems = Json { ignoreUnknownKeys = true }.decodeFromString(menuItemsJson)
         }
 
-        dayPartsJson?.let {
-            dayParts.add(Json { ignoreUnknownKeys = true }.decodeFromString<DayPart>(dayPartsJson))
+        dayPartsJsonList?.let {
+            for (dayPartInstance in dayPartsJsonList) {
+                dayParts.add(Json { ignoreUnknownKeys = true }.decodeFromString(dayPartInstance))
+            }
         }
 
         if (dayParts.isEmpty() || menuItems.isEmpty()) {
