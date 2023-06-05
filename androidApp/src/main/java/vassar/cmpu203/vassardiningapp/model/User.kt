@@ -4,12 +4,13 @@ import com.vassar.vassardiningappcommon.DietaryRestriction
 import com.vassar.vassardiningappcommon.MealtimeItem
 import com.vassar.vassardiningappcommon.MealtimeMenu
 import java.io.Serializable
+import java.time.LocalDate
 
 /**
  * Represents a user, containing all data that is variable between different users, such as favorite items.
  */
 class User : Serializable {
-    val favorites: MutableMap<String, MealtimeItem> = HashMap()
+    val favorites: MutableSet<MealtimeItem> = HashSet()
     var dietaryRestrictions: MutableSet<DietaryRestriction> = HashSet()
     var isFavoriteFiltered = false
     var isRestrictionFiltered = false
@@ -20,10 +21,10 @@ class User : Serializable {
      * @param item the item to either add or remove from the map
      */
     fun switchFavoriteStatus(item: MealtimeItem) {
-        if (favorites.containsKey(item.id)) {
-            favorites.remove(item.id)
+        if (item in favorites) {
+            favorites.remove(item)
         } else {
-            favorites[item.id] = item
+            favorites.add(item)
         }
     }
 
@@ -32,7 +33,7 @@ class User : Serializable {
      * @param restriction the restriction to either add or remove from the map
      */
     fun switchRestrictionStatus(restriction: DietaryRestriction) {
-        if (dietaryRestrictions.contains(restriction)) {
+        if (restriction in dietaryRestrictions) {
             dietaryRestrictions.remove(restriction)
         } else {
             dietaryRestrictions.add(restriction)
@@ -55,12 +56,12 @@ class User : Serializable {
      */
     fun matchRestriction(restrictionsToMatch: MutableSet<DietaryRestriction>): Boolean {
         val effectiveRestrictions = restrictionsToMatch.toMutableSet()
-        if (effectiveRestrictions.contains(DietaryRestriction.VEGAN)) {
-            effectiveRestrictions.add(DietaryRestriction.KOSHER)
-            effectiveRestrictions.add(DietaryRestriction.VEGETARIAN)
-            effectiveRestrictions.add(DietaryRestriction.HALAL)
-        } else if (effectiveRestrictions.contains(DietaryRestriction.VEGETARIAN)) {
-            effectiveRestrictions.add(DietaryRestriction.HALAL)
+        if (DietaryRestriction.VEGAN in effectiveRestrictions) {
+            effectiveRestrictions += DietaryRestriction.KOSHER
+            effectiveRestrictions += DietaryRestriction.VEGETARIAN
+            effectiveRestrictions += DietaryRestriction.HALAL
+        } else if (DietaryRestriction.VEGETARIAN in effectiveRestrictions) {
+            effectiveRestrictions += DietaryRestriction.HALAL
         }
         return effectiveRestrictions.containsAll(dietaryRestrictions)
     }
@@ -72,7 +73,7 @@ class User : Serializable {
      */
     fun filterMenus(menus: List<MealtimeMenu>) = menus.map { menu ->
         val visibleItems = menu.menuItems.filter { item ->
-            (!isFavoriteFiltered || item.id in favorites) &&
+            (!isFavoriteFiltered || item in favorites) &&
                     (!isRestrictionFiltered || matchRestriction(item.dietaryRestrictions))
         }
         MealtimeMenu(menu.cafe, menu.date, menu.label, visibleItems)
