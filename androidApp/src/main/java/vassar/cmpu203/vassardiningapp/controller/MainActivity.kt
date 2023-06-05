@@ -1,7 +1,5 @@
 package vassar.cmpu203.vassardiningapp.controller
 
-//import vassar.cmpu203.vassardiningapp.CafeBonHTTPRequest.Menu
-//import vassar.cmpu203.vassardiningapp.CafeBonHTTPRequest.MenuParser
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
@@ -14,8 +12,6 @@ import com.vassar.vassardiningappcommon.MealtimeMenu
 import com.vassar.vassardiningappcommon.MenuParser
 import kotlinx.coroutines.*
 import vassar.cmpu203.vassardiningapp.R
-//import com.vassar.vassardiningapp.MealtimeItem
-//import com.vassar.vassardiningapp.MealtimeMenu
 import vassar.cmpu203.vassardiningapp.model.User
 import vassar.cmpu203.vassardiningapp.view.*
 import java.time.LocalDate
