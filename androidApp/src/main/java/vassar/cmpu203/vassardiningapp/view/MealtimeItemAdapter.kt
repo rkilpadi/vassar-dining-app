@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import vassar.cmpu203.vassardiningapp.R
 import vassar.cmpu203.vassardiningapp.databinding.MealtimeItemBinding
-import vassar.cmpu203.vassardiningapp.model.MealtimeItem
+import com.vassar.vassardiningappcommon.MealtimeItem
 
 class MealtimeItemAdapter(
-        private var items: List<MealtimeItem>,
-        private val context: Context,
-        private val listener: IFavoriteView.Listener,
-        private val favoriteView: IFavoriteView
+    private var items: List<MealtimeItem>,
+    private val context: Context,
+    private val listener: IFavoriteView.Listener,
+    private val favoriteView: IFavoriteView
 ) : RecyclerView.Adapter<MealtimeItemAdapter.ViewHolder>() {
 
     private lateinit var binding: MealtimeItemBinding

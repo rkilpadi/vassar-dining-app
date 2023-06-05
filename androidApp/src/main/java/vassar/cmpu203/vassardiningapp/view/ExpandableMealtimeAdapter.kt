@@ -9,14 +9,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import vassar.cmpu203.vassardiningapp.model.MealtimeMenu
+import com.vassar.vassardiningappcommon.MealtimeMenu
 import vassar.cmpu203.vassardiningapp.databinding.MealtimeMenuBinding
 
 class ExpandableMealtimeAdapter(
-        private var menus: List<MealtimeMenu>,
-        private val context: Context,
-        private val listener: IMenuSelectView.Listener,
-        private val menuSelectView: IMenuSelectView
+    private var menus: List<MealtimeMenu>,
+    private val context: Context,
+    private val listener: IMenuSelectView.Listener,
+    private val menuSelectView: IMenuSelectView
 ) : RecyclerView.Adapter<ExpandableMealtimeAdapter.ViewHolder>() {
 
     private lateinit var binding: MealtimeMenuBinding

@@ -1,4 +1,4 @@
-package com.vassar.vassardiningapp
+package com.vassar.vassardiningappcommon
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.MapSerializer
@@ -6,14 +6,12 @@ import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.*
 
 @Serializable
-data class MenuItem2 (
-    val id: String? = null,
+data class MenuItem (
     val label: String? = null,
     val description: String? = null,
     @Serializable(with = NullableMapSerializer::class)
     val cor_icon: Map<String, String>? = null,
-    val tier: Int = 0,
-    val station: String? = null
+    val tier: Int = 0
 ) {
 
     //public Map<String, MenuItem> IdMapper{}

@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import vassar.cmpu203.vassardiningapp.databinding.RestrictionCheckBinding
-import vassar.cmpu203.vassardiningapp.model.DietaryRestriction
+import com.vassar.vassardiningappcommon.DietaryRestriction
 import vassar.cmpu203.vassardiningapp.model.User
 
 class RestrictionCheckAdapter(
-        private val restrictions: Array<DietaryRestriction>,
-        private val user: User
+    private val restrictions: Array<DietaryRestriction>,
+    private val user: User
 ) : RecyclerView.Adapter<RestrictionCheckAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,7 +24,7 @@ class RestrictionCheckAdapter(
 
     class ViewHolder(var binding: RestrictionCheckBinding) : RecyclerView.ViewHolder(binding.root) {
         fun setData(restriction: DietaryRestriction, user: User) {
-            binding.restrictionIcon.setImageResource(restriction.iconId)
+            binding.restrictionIcon.setImageResource(binding.root.context.resources.getIdentifier(restriction.iconId, "drawable", binding.root.context.packageName))
             binding.restrictionCheck.isChecked = user.dietaryRestrictions.contains(restriction)
             binding.restrictionCheck.setOnClickListener { user.switchRestrictionStatus(restriction) }
             binding.restrictionName.text = restriction.label

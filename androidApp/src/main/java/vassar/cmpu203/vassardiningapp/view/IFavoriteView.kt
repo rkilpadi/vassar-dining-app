@@ -1,6 +1,6 @@
 package vassar.cmpu203.vassardiningapp.view
 
-import vassar.cmpu203.vassardiningapp.model.MealtimeItem
+import com.vassar.vassardiningappcommon.MealtimeItem
 import vassar.cmpu203.vassardiningapp.model.User
 
 /**

@@ -9,10 +9,13 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.vassar.vassardiningappcommon.MealtimeItem
+import com.vassar.vassardiningappcommon.MealtimeMenu
+import com.vassar.vassardiningappcommon.MenuParser
 import kotlinx.coroutines.*
 import vassar.cmpu203.vassardiningapp.R
-//import vassar.cmpu203.vassardiningapp.model.MealtimeItem
-//import vassar.cmpu203.vassardiningapp.model.MealtimeMenu
+//import com.vassar.vassardiningapp.MealtimeItem
+//import com.vassar.vassardiningapp.MealtimeMenu
 import vassar.cmpu203.vassardiningapp.model.User
 import vassar.cmpu203.vassardiningapp.view.*
 import java.time.LocalDate
@@ -52,10 +55,10 @@ class MainActivity : AppCompatActivity(), IMenuSelectView.Listener, NavigationVi
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val strDate = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-                val newMenu = MenuParser2("https://vassar.cafebonappetit.com/cafe/$cafe/$date/").getMenu()
-                val result = MenuParser.MenuParserMethod(cafe, strDate)
+                val newMenu = MenuParser()
+                newMenu.initialize("https://vassar.cafebonappetit.com/cafe/$cafe/$strDate/")
+                currentMenu = newMenu.toMealtimeMenu(cafe, strDate)
                 withContext(Dispatchers.Main) {
-                    currentMenu = result.map(toMealtimeMenu())
                     updateVisibleMenu(view)
                     view.refreshMenu()
                 }

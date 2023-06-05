@@ -1,4 +1,4 @@
-package com.vassar.vassardiningapp
+package com.vassar.vassardiningappcommon
 
 import kotlinx.serialization.Serializable
 

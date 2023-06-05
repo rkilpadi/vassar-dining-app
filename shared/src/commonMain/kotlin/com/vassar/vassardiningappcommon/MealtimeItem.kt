@@ -1,15 +1,16 @@
-package vassar.cmpu203.vassardiningapp.model
+package com.vassar.vassardiningappcommon
 
-import java.io.Serializable
+import kotlinx.serialization.Serializable
 
 /** Represents a food item that could appear on multiple menus. */
+@Serializable
 data class MealtimeItem(
         val name: String,
         val id: String,
         val description: String,
         val station: String,
         val dietaryRestrictions: MutableSet<DietaryRestriction>
-) : Serializable {
+) {
 
     override fun equals(other: Any?): Boolean {
         if (other == null) return false

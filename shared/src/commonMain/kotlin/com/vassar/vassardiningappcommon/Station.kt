@@ -1,4 +1,4 @@
-package com.vassar.vassardiningapp
+package com.vassar.vassardiningappcommon
 
 import kotlinx.serialization.Serializable
 
@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 data class Station (
     val label: String,
     val items: List<String>
-){
+) {
     override fun toString(): String {
         val sb = StringBuilder()
         sb.append("Station: ").append(label).append("\n")

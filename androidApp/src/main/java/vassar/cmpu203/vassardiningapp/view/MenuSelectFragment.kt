@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import vassar.cmpu203.vassardiningapp.R
 import vassar.cmpu203.vassardiningapp.databinding.FragmentMenuSelectBinding
-import vassar.cmpu203.vassardiningapp.model.MealtimeMenu
+import com.vassar.vassardiningappcommon.MealtimeMenu
 import java.time.LocalDate
 
 private const val TITLE = "Menu"

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import vassar.cmpu203.vassardiningapp.databinding.FragmentManageRestrictionsBinding
-import vassar.cmpu203.vassardiningapp.model.DietaryRestriction
+import com.vassar.vassardiningappcommon.DietaryRestriction
 import vassar.cmpu203.vassardiningapp.model.User
 
 private const val TITLE = "Dietary Restrictions"

@@ -1,5 +1,8 @@
 package vassar.cmpu203.vassardiningapp.model
 
+import com.vassar.vassardiningappcommon.DietaryRestriction
+import com.vassar.vassardiningappcommon.MealtimeItem
+import com.vassar.vassardiningappcommon.MealtimeMenu
 import java.io.Serializable
 
 /**

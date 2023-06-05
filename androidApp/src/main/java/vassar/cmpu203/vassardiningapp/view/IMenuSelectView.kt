@@ -1,6 +1,6 @@
 package vassar.cmpu203.vassardiningapp.view
 
-import vassar.cmpu203.vassardiningapp.model.MealtimeMenu
+import com.vassar.vassardiningappcommon.MealtimeMenu
 import java.time.LocalDate
 
 /**

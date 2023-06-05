@@ -4,7 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import vassar.cmpu203.vassardiningapp.databinding.RestrictionIconBinding
-import vassar.cmpu203.vassardiningapp.model.DietaryRestriction
+import com.vassar.vassardiningappcommon.DietaryRestriction
+import vassar.cmpu203.vassardiningapp.R
 
 class RestrictionIconAdapter(private val restrictions: Set<DietaryRestriction>) :
         RecyclerView.Adapter<RestrictionIconAdapter.ViewHolder>() {
@@ -21,7 +22,7 @@ class RestrictionIconAdapter(private val restrictions: Set<DietaryRestriction>) 
 
     class ViewHolder(private val binding: RestrictionIconBinding) : RecyclerView.ViewHolder(binding.root) {
         fun setData(restriction: DietaryRestriction) {
-            binding.restrictionIcon.setImageResource(restriction.iconId)
+            binding.restrictionIcon.setImageResource(binding.root.context.resources.getIdentifier(restriction.iconId, "drawable", binding.root.context.packageName))
         }
     }
 }
