@@ -52,7 +52,7 @@ fun AppBarPage(currentScreen: Screen) {
     ) { paddingValues ->
         NavHost(
             navController = navController,
-            startDestination = Screen.Restrictions.route,
+            startDestination = Screen.Menu.route,
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(Screen.Menu.route) { MenuScreen("gordon", LocalDate.now()) }
