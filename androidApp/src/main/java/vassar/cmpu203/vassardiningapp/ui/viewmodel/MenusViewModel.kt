@@ -3,8 +3,6 @@ package vassar.cmpu203.vassardiningapp.ui.viewmodel
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.google.android.material.snackbar.Snackbar
 import com.vassar.vassardiningappcommon.MealtimeMenu
 import com.vassar.vassardiningappcommon.MenuParser
 import kotlinx.coroutines.CoroutineScope

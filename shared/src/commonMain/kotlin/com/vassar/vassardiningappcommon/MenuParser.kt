@@ -31,7 +31,7 @@ class MenuParser {
             menuItems = Json { ignoreUnknownKeys = true }.decodeFromString(menuItemsJson)
         }
 
-        dayPartsJsonList?.let {
+        dayPartsJsonList.let {
             for (dayPartInstance in dayPartsJsonList) {
                 dayParts.add(Json { ignoreUnknownKeys = true }.decodeFromString(dayPartInstance))
             }

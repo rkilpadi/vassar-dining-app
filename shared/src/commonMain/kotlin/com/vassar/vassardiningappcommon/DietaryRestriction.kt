@@ -22,7 +22,6 @@ enum class DietaryRestriction(private val restrictionId: String, val iconId: Str
          * @param id the ID to match with a restriction
          * @return the DietaryRestriction with the given ID
          */
-        @JvmStatic
         fun getById(id: String): DietaryRestriction {
             return values().find { it.restrictionId == id }
                     ?: throw RuntimeException("No known dietary restriction with that ID")
