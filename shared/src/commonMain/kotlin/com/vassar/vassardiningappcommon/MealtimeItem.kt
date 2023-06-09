@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class MealtimeItem(
         val name: String,
         val id: String,
-        val myDescription: String,
+        val itemDescription: String,
         val station: String,
         val dietaryRestrictions: MutableSet<DietaryRestriction>
 ) {
