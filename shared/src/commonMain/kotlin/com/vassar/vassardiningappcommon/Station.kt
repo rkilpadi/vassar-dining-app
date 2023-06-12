@@ -7,6 +7,8 @@ data class Station (
     val label: String,
     val items: List<String>
 ) {
+    val stationItems: MutableList<MenuItem> = mutableListOf()
+
     override fun toString(): String {
         val sb = StringBuilder()
         sb.append("Station: ").append(label).append("\n")

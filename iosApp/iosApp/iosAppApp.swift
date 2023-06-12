@@ -32,7 +32,7 @@ class MenuViewModel: ObservableObject {
     
     @Published var searching: Bool = true
     let parser = MenuParser()
-    @Published var menus = [MealtimeMenu]()
+    @Published var dayParts = [DayPart]()
     
     @MainActor
     func initialize() async throws {
@@ -41,8 +41,8 @@ class MenuViewModel: ObservableObject {
         
         searching = false
         
-        let parsed = parser.toMealtimeMenu(cafe: "gordon", date: "date")
+        let parsed = parser.dayParts
         
-        menus = parsed as NSArray as! [MealtimeMenu]
+        dayParts = parsed as NSArray as! [DayPart]
     }
 }

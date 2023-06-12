@@ -16,6 +16,12 @@
 		2F0AF0EB2A30F1DE00545435 /* iosAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0AF0EA2A30F1DE00545435 /* iosAppUITestsLaunchTests.swift */; };
 		2F3AD09A2A31534C009E9603 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3AD0992A31534C009E9603 /* SideMenuView.swift */; };
 		2F3AD09C2A31553F009E9603 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3AD09B2A31553F009E9603 /* HomeView.swift */; };
+		2F3C58EF2A33B9DA008DA704 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3C58EE2A33B9DA008DA704 /* FavoritesView.swift */; };
+		2F3C58F12A33BC49008DA704 /* RestrictionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3C58F02A33BC49008DA704 /* RestrictionsView.swift */; };
+		2FDDDB2C2A35374600972518 /* Sticky.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDDDB2B2A35374600972518 /* Sticky.swift */; };
+		2FDDDB2E2A35675D00972518 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDDDB2D2A35675D00972518 /* LoadingView.swift */; };
+		2FDDDB302A3613D800972518 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDDDB2F2A3613D800972518 /* User.swift */; };
+		2FDDDB322A36156200972518 /* ItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDDDB312A36156200972518 /* ItemsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +54,12 @@
 		2F0AF0EA2A30F1DE00545435 /* iosAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2F3AD0992A31534C009E9603 /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
 		2F3AD09B2A31553F009E9603 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; tabWidth = 4; };
+		2F3C58EE2A33B9DA008DA704 /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
+		2F3C58F02A33BC49008DA704 /* RestrictionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestrictionsView.swift; sourceTree = "<group>"; };
+		2FDDDB2B2A35374600972518 /* Sticky.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sticky.swift; sourceTree = "<group>"; };
+		2FDDDB2D2A35675D00972518 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		2FDDDB2F2A3613D800972518 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		2FDDDB312A36156200972518 /* ItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,8 +111,14 @@
 			isa = PBXGroup;
 			children = (
 				2F0AF0CD2A30F1DC00545435 /* iosAppApp.swift */,
+				2FDDDB2F2A3613D800972518 /* User.swift */,
 				2F0AF0CF2A30F1DC00545435 /* MainView.swift */,
+				2FDDDB2D2A35675D00972518 /* LoadingView.swift */,
+				2FDDDB312A36156200972518 /* ItemsView.swift */,
+				2F3C58EE2A33B9DA008DA704 /* FavoritesView.swift */,
+				2F3C58F02A33BC49008DA704 /* RestrictionsView.swift */,
 				2F3AD0992A31534C009E9603 /* SideMenuView.swift */,
+				2FDDDB2B2A35374600972518 /* Sticky.swift */,
 				2F3AD09B2A31553F009E9603 /* HomeView.swift */,
 				2F0AF0D12A30F1DE00545435 /* Assets.xcassets */,
 				2F0AF0D32A30F1DE00545435 /* Preview Content */,
@@ -348,8 +366,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F3C58EF2A33B9DA008DA704 /* FavoritesView.swift in Sources */,
 				2F3AD09A2A31534C009E9603 /* SideMenuView.swift in Sources */,
+				2FDDDB2C2A35374600972518 /* Sticky.swift in Sources */,
 				2F3AD09C2A31553F009E9603 /* HomeView.swift in Sources */,
+				2F3C58F12A33BC49008DA704 /* RestrictionsView.swift in Sources */,
+				2FDDDB302A3613D800972518 /* User.swift in Sources */,
+				2FDDDB2E2A35675D00972518 /* LoadingView.swift in Sources */,
+				2FDDDB322A36156200972518 /* ItemsView.swift in Sources */,
 				2F0AF0D02A30F1DC00545435 /* MainView.swift in Sources */,
 				2F0AF0CE2A30F1DC00545435 /* iosAppApp.swift in Sources */,
 			);

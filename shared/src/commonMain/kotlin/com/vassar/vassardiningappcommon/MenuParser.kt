@@ -40,6 +40,14 @@ class MenuParser {
         if (dayParts.isEmpty() || menuItems.isEmpty()) {
             throw Exception("Unable to Retrieve Information From Website")
         }
+
+        for (time in dayParts) {
+            for (station in time.stations) {
+                for (id in station.items) {
+                    menuItems[id]?.let { station.stationItems.add(it) }
+                }
+            }
+        }
     }
 
     fun toMealtimeMenu(cafe: String, date: String): MutableList<MealtimeMenu> {
