@@ -4,7 +4,7 @@ package com.vassar.vassardiningappcommon
 /**
  * Represents dietary restrictions and relates them to symbols to be displayed on the menu.
  */
-enum class DietaryRestriction(private val restrictionId: String, val iconId: String, val label: String) {
+enum class DietaryRestriction(val restrictionId: String, val iconId: String, val label: String) {
     VEGETARIAN("1", "ic_vegetarian", "Vegetarian"),
     VEGAN("4", "ic_vegan", "Vegan"),
     GLUTEN_FREE("9", "ic_gluten", "Made without Gluten-Containing Ingredients"),
@@ -25,6 +25,10 @@ enum class DietaryRestriction(private val restrictionId: String, val iconId: Str
         fun getById(id: String): DietaryRestriction {
             return values().find { it.restrictionId == id }
                     ?: throw RuntimeException("No known dietary restriction with that ID")
+        }
+
+        fun createArray(): List<DietaryRestriction> {
+            return values().toList()
         }
     }
 }

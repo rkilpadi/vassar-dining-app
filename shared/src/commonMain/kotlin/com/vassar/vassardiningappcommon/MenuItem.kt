@@ -26,6 +26,17 @@ data class MenuItem (
         cor_icon?.let { cor_icon.forEach{ (_, value) -> sb.append(value).append("\n") } }
         return sb.toString()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is MenuItem) return false
+
+        if (label != other.label) return false
+        if (cor_icon != other.cor_icon) return false
+        if (tier != other.tier) return false
+
+        return true
+    }
 }
 
 object NullableMapSerializer : JsonTransformingSerializer<Map<String, String>>(MapSerializer(String.serializer(), String.serializer())) {

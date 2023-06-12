@@ -12,8 +12,8 @@ data class MealtimeItem(
         val dietaryRestrictions: MutableSet<DietaryRestriction>
 ) {
 
-//    override fun equals(other: Any?): Boolean {
-//        if (other == null) return false
-//        return if (javaClass != other.javaClass) false else id == (other as MealtimeItem).id
-//    }
+    override fun equals(other: Any?): Boolean {
+        if (other == null) return false
+        return (id == (other as MealtimeItem).id) && (dietaryRestrictions == other.dietaryRestrictions)
+    }
 }
