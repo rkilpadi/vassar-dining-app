@@ -102,6 +102,7 @@ enum SideMenuRowType: Int, CaseIterable{
     case home = 0
     case favorite
     case restrictions
+    case settings
     
     var title: String{
         switch self {
@@ -111,6 +112,8 @@ enum SideMenuRowType: Int, CaseIterable{
             return "Favorites"
         case .restrictions:
             return "Dietary Restrictions"
+        case .settings:
+            return "Settings"
         }
     }
     
@@ -122,6 +125,8 @@ enum SideMenuRowType: Int, CaseIterable{
             return "favorite"
         case .restrictions:
             return "restrictions"
+        case .settings:
+            return "settings"
         }
     }
 }

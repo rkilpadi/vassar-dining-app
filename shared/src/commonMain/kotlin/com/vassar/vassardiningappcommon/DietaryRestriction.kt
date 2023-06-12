@@ -14,7 +14,9 @@ enum class DietaryRestriction(val restrictionId: String, val iconId: String, val
     FARM("6", "ic_farm", "Farm to Fork"),
     SEAFOOD("3", "ic_seafood", "Seafood Watch"),
     HUMANE("18", "ic_humane", "Humane"),
-    ORGANIC("8", "ic_organic", "Organic");
+    ORGANIC("8", "ic_organic", "Organic"),
+    LOCALLY_CRAFTED("55", "ic_locally_crafted", "Locally Crafted"),
+    RAW_UNDERCOOKED("228", "ic_raw", "Raw/Undercooked");
 
     companion object {
         /**

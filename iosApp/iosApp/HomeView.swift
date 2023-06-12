@@ -33,6 +33,11 @@ struct HomeView: View {
                 .padding(.trailing)
                 Text("Menu").bold()
                 Spacer()
+                DatePicker("", selection: $viewModel.date, in: Date.now..., displayedComponents: .date)
+                    .labelsHidden()
+                    .onChange(of: viewModel.date) { _ in
+                        viewModel.searching = true
+                    }
                 Button {
                     showRes.toggle()
                 } label: {
@@ -59,7 +64,9 @@ struct HomeView: View {
                             .frame(width: 25, height: 25)
                     }
                 }
-            }.padding().background(Color("purple_700"))
+            }
+            .padding()
+            .background(Color("purple_700"))
             
             HStack (alignment: .center, spacing: 20) {
                 Spacer(minLength: 0)
@@ -111,7 +118,7 @@ struct HomeView: View {
         
         for station in data.stations {
             let items = station.stationItems as NSArray as! [MenuItem]
-            
+
             mapItems.append((station: station, items: items))
         }
         
@@ -179,11 +186,10 @@ struct RestrictionsImage: View {
     var restrictionsList: [String: String]
     
     var body: some View {
-        
         ForEach(Array(restrictionsList.keys), id: \.self) { key in
             Image(DietaryRestriction.companion.getById(id: key).iconId)
-                .resizable()
-                .frame(width: 15, height: 15)
+                    .resizable()
+                    .frame(width: 15, height: 15)
         }
     }
 }

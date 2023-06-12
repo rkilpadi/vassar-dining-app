@@ -9,6 +9,8 @@ import kotlinx.serialization.json.Json
 class MenuParser {
     var menuItems: Map<String, MenuItem> = emptyMap()
     var dayParts: MutableList<DayPart> = mutableListOf()
+    var cafes: MutableSet<String> = mutableSetOf()
+    var schools: List<String> = listOf("vassar", "mit")
     private val client = HttpClient()
 
     suspend fun initialize(url: String) {
@@ -37,15 +39,29 @@ class MenuParser {
             }
         }
 
-        if (dayParts.isEmpty() || menuItems.isEmpty()) {
-            throw Exception("Unable to Retrieve Information From Website")
-        }
+//        if (dayParts.isEmpty() || menuItems.isEmpty()) {
+//            throw Exception("Unable to Retrieve Information From Website")
+//        }
 
         for (time in dayParts) {
             for (station in time.stations) {
                 for (id in station.items) {
                     menuItems[id]?.let { station.stationItems.add(it) }
                 }
+            }
+        }
+
+        val regex = "\\.cafebonappetit\\.com/cafe/(.*?)/".toRegex()
+        val matchResult = regex.findAll(html)
+        val capturedTextList = matchResult.map { it.groupValues.getOrNull(1) }.toList()
+
+        val dateregex = "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))".toRegex()
+
+        for (result in capturedTextList) {
+            if (result != null && dateregex.matches(result)) {
+                cafes.add("All Cafes")
+            } else if (result != null && result != "feed") {
+                cafes.add(result)
             }
         }
     }

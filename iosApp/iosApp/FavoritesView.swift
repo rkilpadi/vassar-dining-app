@@ -33,6 +33,7 @@ struct FavoritesView: View {
             
             ScrollView {
                 ItemsView(items: user.favItems, user: user, showRes: $showRes, showFav: $showFav)
+                    .padding()
             }
             Spacer()
         }
