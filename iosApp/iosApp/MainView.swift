@@ -47,7 +47,7 @@ struct MainView: View {
                         .tag(1)
                     RestrictionsView(presentSideMenu: $presentSideMenu, user: user, viewModel: viewModel)
                         .tag(2)
-                    SettingsView(presentSideMenu: $presentSideMenu, viewModel: viewModel, user: user)
+                    SettingsView(presentSideMenu: $presentSideMenu, viewModel: viewModel, user: user, selectedSideMenuTab: $selectedSideMenuTab)
                         .tag(3)
                 }
                 

@@ -13,6 +13,7 @@ struct SettingsView: View {
     @Binding var presentSideMenu: Bool
     @StateObject var viewModel: MenuViewModel
     @StateObject var user: User
+    @Binding var selectedSideMenuTab: Int
     
     var body: some View {
         VStack(spacing: 0) {
@@ -45,6 +46,7 @@ struct SettingsView: View {
                             viewModel.error = errorMessage
                         }
                     }
+                    selectedSideMenuTab = 0
                     viewModel.searching = true
                     viewModel.error = ""
                 }
@@ -69,6 +71,7 @@ struct SettingsView: View {
                                 viewModel.error = errorMessage
                             }
                         }
+                        selectedSideMenuTab = 0
                         viewModel.error = ""
                         viewModel.searching = true
                     } label: {

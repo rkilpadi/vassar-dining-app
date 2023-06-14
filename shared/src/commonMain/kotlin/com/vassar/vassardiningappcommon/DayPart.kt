@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class DayPart (
     val label: String,
+    val starttime: String,
+    val endtime: String,
     val stations: List<Station>
 ){
     override fun toString(): String {

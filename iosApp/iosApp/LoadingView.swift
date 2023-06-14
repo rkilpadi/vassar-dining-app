@@ -15,6 +15,7 @@ struct LoadingView: View {
         VStack (spacing: 0) {
             
             if viewModel.error == "" {
+                Spacer()
                 Text("Loading, Please Wait")
             } else {
                 
